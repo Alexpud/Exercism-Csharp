@@ -16,7 +16,11 @@ public static class SumOfMultiples
         return multipleNumbers.Sum();
     }
 
-    public static IEnumerable<int> MultiplesBetween(int lowerLimit, int upperLimit, IEnumerable<int> multiples)
+    /// <summary>
+    /// Returns list of integers between the lower and upper limit that are multiple
+    /// to either multiple in the list of multiples
+    /// </summary>
+    private static IEnumerable<int> MultiplesBetween(int lowerLimit, int upperLimit, IEnumerable<int> multiples)
     {
         var numbersBetween = NumbersBetween(lowerLimit, upperLimit);
         return (from number in numbersBetween
@@ -30,7 +34,10 @@ public static class SumOfMultiples
                 select number);
     }
 
-    public static List<int> NumbersBetween(int lowerLimit, int upperLimit)
+    /// <summary>
+    /// List of all integers between the two limits
+    /// </summary>
+    private static List<int> NumbersBetween(int lowerLimit, int upperLimit)
     {
         List<int> list = new List<int>();
         
