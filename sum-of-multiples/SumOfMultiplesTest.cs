@@ -7,11 +7,6 @@ using System.Collections.Generic;
 public class SumOfMultiplesTest
 {
     [Fact]
-    public void Numbers_between_0_10()
-    {
-        Assert.Equal(new List<int>(){0,1,2,3,4,5,6,7,8,9}, SumOfMultiples.NumbersBetween(0,10));
-    }
-    [Fact]
     public void Multiples_of_3_or_5_up_to_1()
     {
         Assert.Equal(0, SumOfMultiples.Sum(new[] { 3, 5 }, 1));

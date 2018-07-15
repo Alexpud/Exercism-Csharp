@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-
-
+using System.Collections;
 public static class SumOfMultiples
 {
     public static int Sum(IEnumerable<int> multiples, int max)
@@ -16,13 +15,9 @@ public static class SumOfMultiples
         return multipleNumbers.Sum();
     }
 
-    /// <summary>
-    /// Returns list of integers between the lower and upper limit that are multiple
-    /// to either multiple in the list of multiples
-    /// </summary>
     private static IEnumerable<int> MultiplesBetween(int lowerLimit, int upperLimit, IEnumerable<int> multiples)
     {
-        var numbersBetween = NumbersBetween(lowerLimit, upperLimit);
+        var numbersBetween = Enumerable.Range(lowerLimit, upperLimit);
         return (from number in numbersBetween
                 
                 let isMultiple = (from multiple in multiples
@@ -32,20 +27,5 @@ public static class SumOfMultiples
                 where isMultiple.Any() == true
                 
                 select number);
-    }
-
-    /// <summary>
-    /// List of all integers between the two limits
-    /// </summary>
-    private static List<int> NumbersBetween(int lowerLimit, int upperLimit)
-    {
-        List<int> list = new List<int>();
-        
-        while(lowerLimit < upperLimit)
-        {
-            list.Add(lowerLimit);
-            lowerLimit++;
-        }
-        return list;
     }
 }
