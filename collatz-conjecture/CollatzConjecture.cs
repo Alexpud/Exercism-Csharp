@@ -1,6 +1,7 @@
 ﻿using System;
 
-public static class CollatzConjecture {
+public static class CollatzConjecture 
+{
     public static int Steps (int number) 
     {
         if(number <= 0)
