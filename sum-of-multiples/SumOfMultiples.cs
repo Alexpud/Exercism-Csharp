@@ -20,11 +20,9 @@ public static class SumOfMultiples
         var numbersBetween = Enumerable.Range(lowerLimit, upperLimit);
         return (from number in numbersBetween
                 
-                let isMultiple = (from multiple in multiples
+                where (from multiple in multiples
                                   where number % multiple == 0
-                                  select multiple)
-                
-                where isMultiple.Any() == true
+                                  select multiple).Any()
                 
                 select number);
     }

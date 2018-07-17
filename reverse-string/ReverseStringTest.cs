@@ -7,7 +7,7 @@ public class ReverseStringTest
     [Fact]
     public void An_empty_string()
     {
-        Assert.Equal("a", ReverseString.Reverse("a"));
+        Assert.Equal("", ReverseString.Reverse(""));
     }
 
     [Fact]

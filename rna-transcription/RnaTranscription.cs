@@ -18,25 +18,22 @@ public static class RnaTranscription
 
     private static char RnaComplement(char dna)
     {
-        char rnaEquivalent = '0';
         switch(dna)
         {
             case 'G':
-                rnaEquivalent = 'C';
-                break;
+                return 'C';
             
             case 'C':
-                rnaEquivalent = 'G';
-                break;
+                return 'G';
             
             case 'T':
-                rnaEquivalent = 'A';
-                break;
+                return 'A';
 
             case 'A':
-                rnaEquivalent = 'U';
-                break;
+                return 'U';
+
+            default:
+                return '0';
         }
-        return rnaEquivalent;
     }
 }
