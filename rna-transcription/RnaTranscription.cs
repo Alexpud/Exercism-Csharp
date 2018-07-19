@@ -33,7 +33,7 @@ public static class RnaTranscription
                 return 'U';
 
             default:
-                return '0';
+                throw new ArgumentException();
         }
     }
 }
