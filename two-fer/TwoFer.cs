@@ -4,7 +4,7 @@
   {
       public static string Name(string input = null)
       {
-          string whoIsItFor = input == null ? "you" : input;
+          string whoIsItFor = input ?? "you";
           return $"One for {whoIsItFor}, one for me.";
       }
   }

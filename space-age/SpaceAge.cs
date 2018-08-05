@@ -14,7 +14,8 @@ public class SpaceAge
 
     public SpaceAge(long seconds)
     {
-        _days = ((seconds / 60) / 60) /24;
+        var x = GetHours(GetMinutes(seconds));
+        _days = (decimal)GetDays(GetHours(GetMinutes(seconds)));
     }
 
     public double OnEarth()
@@ -56,5 +57,20 @@ public class SpaceAge
     public double OnNeptune()
     {
       return (double)Math.Round(_days / NEPTUNEDAYS, 2);
+    }
+
+    private double GetDays(int hours)
+    {
+        return (double)hours / 24;
+    }
+
+    private double GetHours(double minutes)
+    {
+        return (double)minutes / 60;
+    }
+
+    private double GetMinutes(long seconds)
+    {
+        return (double)seconds / 60;
     }
 }
