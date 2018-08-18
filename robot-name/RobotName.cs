@@ -2,57 +2,47 @@ using System;
 
 public class Robot
 {
-    public string Name
-    {
-        get
-        {
-            return _AuxiliaryRobotName;
-        }
-    }
+    public string Name { get; private set; }
+    private readonly Random _random;
 
-    private string _AuxiliaryRobotName { get; set;}
-    
     public Robot()
     {
-      _AuxiliaryRobotName = ThreeRandomLetters() + ThreeRandomNumbers();
+        _random = new Random();
+        Name = ThreeRandomLetters() + ThreeRandomNumbers();
     }
 
     public void Reset()
     {
-        _AuxiliaryRobotName = ThreeRandomLetters() + ThreeRandomNumbers();
+        Name = ThreeRandomLetters() + ThreeRandomNumbers();
     }
 
     public string ThreeRandomLetters()
     {
-        Random random = new Random();
         string result = "";
-
-        int seed = random.Next(65, 90);
-        result += (char)seed;
-
-        seed = random.Next(65, 90);
-        result += (char)seed;
-
-        seed = random.Next(65, 90);
-        result += (char)seed;
+        result += RandomAlphabetCharacter();
+        result += RandomAlphabetCharacter();
+        result += RandomAlphabetCharacter();
 
         return result;
     }
 
     public string ThreeRandomNumbers()
     {
-        Random random = new Random();
         string result = "";
-
-        int seed = random.Next(0, 9);
-        result += seed;
-
-        seed = random.Next(0, 9);
-        result += seed;
-
-        seed = random.Next(0, 9);
-        result += seed;
+        result += RandomZeroToNineNumber();
+        result += RandomZeroToNineNumber();
+        result += RandomZeroToNineNumber();
 
         return result;
+    }
+
+    private char RandomAlphabetCharacter()
+    {
+        return (char)_random.Next(65, 90);
+    }
+
+    public int RandomZeroToNineNumber()
+    {
+        return _random.Next(0, 9);
     }
 }
