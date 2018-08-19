@@ -3,12 +3,11 @@ using System;
 public class Robot
 {
     public string Name { get; private set; }
-    private readonly Random _random;
+    private static readonly Random _random = new Random();
 
     public Robot()
     {
-        _random = new Random();
-        Name = ThreeRandomLetters() + ThreeRandomNumbers();
+        Reset();
     }
 
     public void Reset()
