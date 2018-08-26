@@ -27,19 +27,20 @@ public class NucleotideCount
         var dictionary = BuildNucleotideDictionary();
         foreach(var nucleotide in dnaSequence)
         {
-            int currentNucleotideCount = dictionary[nucleotide];
-            dictionary[nucleotide] = ++currentNucleotideCount;
+            dictionary[nucleotide] = ++dictionary[nucleotide];
         }
         return dictionary;
     }
     
     private Dictionary<char, int> BuildNucleotideDictionary()
     {
-        Dictionary<char, int> dic = new Dictionary<char, int>();
-        dic.Add('A', 0);
-        dic.Add('C', 0);
-        dic.Add('G', 0);
-        dic.Add('T', 0);
+        Dictionary<char, int> dic = new Dictionary<char, int>()
+        {
+            ['A'] = 0,
+            ['C'] = 0,
+            ['G'] = 0,
+            ['T'] = 0
+        };
 
         return dic;
     }
