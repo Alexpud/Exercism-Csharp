@@ -7,6 +7,10 @@ public static class AccumulateExtensions
 {
     public static IEnumerable<U> Accumulate<T, U>(this IEnumerable<T> collection, Func<T, U> func)
     {
-        return collection.Select(x => func.Invoke(x));
+        List<U> newCollection = new List<U>();
+        foreach(var element in collection)
+        {
+            yield return func.Invoke(element);
+        }
     }
 }
