@@ -19,7 +19,7 @@ public class GradeSchool
     public IEnumerable<string> Roster()
     {
         return StudentListOrderedByNameAndGrade()
-            .Select(x => x.Name)
+            .Select(student => student.Name)
             .ToList();
     }
 
