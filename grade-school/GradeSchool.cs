@@ -4,23 +4,17 @@ using System.Collections.Generic;
 
 public class GradeSchool
 {
-    private List<Student> StudentList;
-
-    public GradeSchool()
-    {
-        StudentList = new List<Student>();
-    }
+    private List<Student> studentList = new List<Student>();
 
     public void Add(string student, int grade)
     {
-        StudentList.Add(NewStudent(student, grade));
+        studentList.Add(new Student(student, grade));
     }
 
     public IEnumerable<string> Roster()
     {
         return StudentListOrderedByNameAndGrade()
-            .Select(student => student.Name)
-            .ToList();
+            .Select(student => student.Name);
     }
 
     public IEnumerable<string> Grade(int grade)
@@ -32,13 +26,8 @@ public class GradeSchool
 
     private IEnumerable<Student> StudentListOrderedByNameAndGrade()
     {
-        return StudentList.OrderBy(student => student.Grade)
+        return studentList.OrderBy(student => student.Grade)
             .ThenBy(student => student.Name);
-    }
-
-    private Student NewStudent(string name, int grade)
-    {
-        return new Student(name, grade);
     }
 
     private class Student
