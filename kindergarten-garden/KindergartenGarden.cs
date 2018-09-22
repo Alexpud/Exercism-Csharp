@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 public enum Plant
@@ -27,12 +28,12 @@ public class KindergartenGarden
         Larry
     }  
 
-    private Dictionary<students, List<Plant>> studentsPlants;
+    private Dictionary<students, string> studentsPlants;
     private const int StudentsCupsPerRow = 2;
 
     public KindergartenGarden(string diagram)
     {
-        studentsPlants = new Dictionary<students, List<Plant>>();
+        studentsPlants = new Dictionary<students, string>();
         SeparatePlantsPerStudent(diagram);
     }
 
@@ -54,58 +55,64 @@ public class KindergartenGarden
             var student = GetOwnerOfNextTwoPlants(i);
             bool outOfBounds = i + StudentsCupsPerRow > rowOfPlantCups.Length - 1;
             students currentStudent = (students)studentEnumList.GetValue(currentStudentIndex++); 
-            if (outOfBounds)
-            {
-                PlantsInEndOfTheRow(rowOfPlantCups, i, currentStudent);
-            }
-            else
-            {
-                PlantsInBegginingOfTheRow(rowOfPlantCups, i, currentStudent);
-            }
+            GetStudentPlantsInRow(rowOfPlantCups, i, currentStudent);
         }
     }
-
+    
     private students GetOwnerOfNextTwoPlants(int diagramRowIndex)
     {
         return (students)Enum.Parse(typeof(students), diagramRowIndex.ToString());
     }
 
-    private void PlantsInEndOfTheRow(string rowOfPlantCups, int positionOfCupOnRow, students ownerOfCups)
+    private void GetStudentPlantsInRow(string rowOfPlantCups, int positionOfCupOnRow, students ownerOfCups)
     {
+        bool outOfBounds = positionOfCupOnRow + StudentsCupsPerRow > rowOfPlantCups.Length - 1;
+        string plantsList = "";
         if (studentsPlants.ContainsKey(ownerOfCups))
         {
-            var plantsList = GetListOfPlantsOnStudentCups(rowOfPlantCups.Substring(positionOfCupOnRow));
-            studentsPlants[ownerOfCups].AddRange(plantsList);
+            if(outOfBounds)
+            {
+                plantsList = GetListOfPlantsOnStudentCups(rowOfPlantCups.Substring(positionOfCupOnRow));
+            }
+            else
+            {
+                plantsList = GetListOfPlantsOnStudentCups(rowOfPlantCups.Substring(positionOfCupOnRow, StudentsCupsPerRow));
+            }
+            studentsPlants[ownerOfCups] += plantsList;
         }
         else
         {
-            var plantsList = GetListOfPlantsOnStudentCups(rowOfPlantCups.Substring(positionOfCupOnRow));
+            if(outOfBounds)
+            {
+                plantsList = GetListOfPlantsOnStudentCups(rowOfPlantCups.Substring(positionOfCupOnRow));
+            }
+            else
+            {
+                plantsList = GetListOfPlantsOnStudentCups(rowOfPlantCups.Substring(positionOfCupOnRow, StudentsCupsPerRow));
+            }
             studentsPlants.Add(ownerOfCups, plantsList);
         }
     }
 
-    private void PlantsInBegginingOfTheRow(string rowOfPlantCups, int positionOfCupOnRow, students ownerOfCups)
+    private string GetListOfPlantsOnStudentCups(string studentCups)
     {
-        if (studentsPlants.ContainsKey(ownerOfCups))
-        {
-            var plantsList = GetListOfPlantsOnStudentCups(rowOfPlantCups.Substring(positionOfCupOnRow, StudentsCupsPerRow)); 
-            studentsPlants[ownerOfCups].AddRange(plantsList);   
-        }
-        else
-        {
-            var plantsList = GetListOfPlantsOnStudentCups(rowOfPlantCups.Substring(positionOfCupOnRow, StudentsCupsPerRow));
-            studentsPlants.Add(ownerOfCups, plantsList);
-        }
-    }
-
-    private List<Plant> GetListOfPlantsOnStudentCups(string studentCups)
-    {
-        List<Plant> plants = new List<Plant>();
+        string plants = "";
         foreach(var plant in studentCups)
         {
-            plants.Add(PlantEnumName(plant));
+            plants += plant;
         }
         return plants;
+    }
+
+    public IEnumerable<Plant> Plants(string student)
+    {
+        var studentEnum = (students)Enum.Parse(typeof(students), student);
+        return GetStudentPlantsAsEnum(studentsPlants[studentEnum]);
+    }
+
+    private IEnumerable<Plant> GetStudentPlantsAsEnum(string studentPlants)
+    {
+        return studentPlants.Select(plant => PlantEnumName(plant));
     }
 
     private Plant PlantEnumName(char plant)
@@ -123,11 +130,5 @@ public class KindergartenGarden
             default:
                 throw new ArgumentException();
         }
-    }
-
-    public IEnumerable<Plant> Plants(string student)
-    {
-        var studentEnum = (students)Enum.Parse(typeof(students), student);
-        return studentsPlants[studentEnum];
     }
 }
