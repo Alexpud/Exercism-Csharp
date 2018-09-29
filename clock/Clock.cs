@@ -5,8 +5,8 @@ public class Clock
     public Clock(int hours, int minutes)
     {     
         Minutes = minutes;
-        AjdustClockMinutes();
         Hours += hours;
+        AjdustClockMinutes();
         AdjustClockHour();
     }
 
