@@ -16,83 +16,50 @@ public enum Allergen
 
 public class Allergies
 {
-    private int allergyScore;
     private int allergyPoints;
     public Allergies(int mask)
     {
-        allergyScore = mask;
-        allergyPoints = allergyScore;
+        allergyPoints = mask;
     }
-
 
     public bool IsAllergicTo(Allergen allergen)
     {
-        int allergenScore = (int)allergen;
-        if (allergyPoints < allergenScore) return false;
-        return true;
-    }
-
-    private bool IsAllergicTo2(Allergen allergen)
-    {
-        int allergenPoints = (int)allergen;
-        if ( allergyPoints >= allergenPoints)
-        {
-            if (allergyPoints == allergenPoints)
-            {
-                allergyPoints -= allergenPoints;
-                return true;
-            }
-            else
-            {
-                allergyPoints -= allergenPoints;
-                return true;
-            }
-        }
+        int allergenAllergyPoints = (int)allergen;
+        if (allergyPoints >= allergenAllergyPoints) return true;
         return false;
     }
 
     public Allergen[] List()
     {
         List<Allergen> listOfAllergies = new List<Allergen>();
-        if (allergyScore > 255)
+        if (allergyPoints > 255)
         {
-            allergyPoints = AdjustAllergyScore() - 1;
+            AdjustAllergyScore();
             listOfAllergies.Add(Allergen.Eggs);
         }
-        foreach(var allergen in Enum.GetValues(typeof(Allergen)).Cast<Allergen>().Reverse())
+        var allergenList = Enum.GetValues(typeof(Allergen)).Cast<Allergen>();
+        foreach(var allergen in allergenList.Reverse())
         {
             int allergenAllergyPoints = (int)allergen;
-            if ( allergyPoints >= allergenAllergyPoints)
+            if(IsAllergicTo(allergen))
             {
-                if (allergyPoints == allergenAllergyPoints)
-                {
-                    allergyPoints -= allergenAllergyPoints;
-                    listOfAllergies.Add(allergen);
-                }
-                else
-                {
-                    if (IsAllergicTo(allergen))
-                    {
-                        allergyPoints -= allergenAllergyPoints;
-                        listOfAllergies.Add(allergen);
-                    }
-                }
+                allergyPoints -= allergenAllergyPoints;
+                listOfAllergies.Add(allergen);
             }
         }
         listOfAllergies.Reverse();
         return listOfAllergies.Distinct().ToArray();
     }
 
-    private int AdjustAllergyScore()
+    private void AdjustAllergyScore()
     {
-        int adjustedAllergyScore = allergyScore;
-        while(adjustedAllergyScore > 255)
+        while(allergyPoints > 255)
         {
-            if(adjustedAllergyScore > 255)
+            if (allergyPoints > 255)
             {
-                adjustedAllergyScore %= 255;
+                allergyPoints %= 255;
             }
         }
-        return adjustedAllergyScore;
+        allergyPoints -= (int)Allergen.Eggs;
     }
 }
