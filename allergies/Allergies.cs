@@ -41,7 +41,7 @@ public class Allergies
         foreach(var allergen in allergenList.Reverse())
         {
             int allergenAllergyPoints = (int)allergen;
-            if(IsAllergicTo(allergen))
+            if (IsAllergicTo(allergen))
             {
                 allergyPoints -= allergenAllergyPoints;
                 listOfAllergies.Add(allergen);
