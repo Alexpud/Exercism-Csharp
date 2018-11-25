@@ -11,10 +11,10 @@ public static class Pangram
         }
 
         // From a to z
-        var lettersFrequency = CountFrequencyOfLetters(input);
-        for(int i = 0; i < lettersFrequency.Length; i ++)
+        var lettersFrequencyArray = GetFrequencyOfLettersAsArray(input);
+        for(int i = 0; i < lettersFrequencyArray.Length; i ++)
         {
-            if (lettersFrequency[i] == 0)
+            if (lettersFrequencyArray[i] == 0)
             {
                 return false;
             }
@@ -22,12 +22,12 @@ public static class Pangram
         return true;
     }
 
-    private static int[] CountFrequencyOfLetters(string input)
+    private static int[] GetFrequencyOfLettersAsArray(string input)
     {
         int [] lettersFrequency = new int[26];
         foreach(var letter in input)
         {
-            if (!Char.IsDigit(letter) && Char.IsLetter(letter))
+            if (Char.IsLetter(letter))
             {
                 int position = LetterPositionInFrequencyArray(letter);
                 lettersFrequency[position]++;
