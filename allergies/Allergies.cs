@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
+using System.Linq.Expressions;
 
 public enum Allergen
 {
@@ -17,49 +19,45 @@ public enum Allergen
 public class Allergies
 {
     private int allergyPoints;
+    private const int MaxAllergyPoints = 255;
+    private List<Allergen> allergicToList;
+
     public Allergies(int mask)
     {
-        allergyPoints = mask;
-    }
+        allergicToList = mask > MaxAllergyPoints ? 
+            new List<Allergen>() { Allergen.Eggs} :
+            new List<Allergen>();
 
-    public bool IsAllergicTo(Allergen allergen)
-    {
-        int allergenAllergyPoints = (int)allergen;
-        if (allergyPoints >= allergenAllergyPoints) return true;
-        return false;
+        allergyPoints = mask > MaxAllergyPoints ? 
+            (mask & MaxAllergyPoints)  : mask;
     }
 
     public Allergen[] List()
     {
-        List<Allergen> listOfAllergies = new List<Allergen>();
-        if (allergyPoints > 255)
+        var allergens = GetAllergenList();
+        allergens.Reverse();
+        foreach(var allergen in allergens)
         {
-            AdjustAllergyScore();
-            listOfAllergies.Add(Allergen.Eggs);
-        }
-        var allergenList = Enum.GetValues(typeof(Allergen)).Cast<Allergen>();
-        foreach(var allergen in allergenList.Reverse())
-        {
-            int allergenAllergyPoints = (int)allergen;
             if (IsAllergicTo(allergen))
             {
-                allergyPoints -= allergenAllergyPoints;
-                listOfAllergies.Add(allergen);
+                allergyPoints -= (int)allergen;
+                allergicToList.Add(allergen);
             }
         }
-        listOfAllergies.Reverse();
-        return listOfAllergies.Distinct().ToArray();
+        allergicToList = allergicToList.OrderBy(allergen => (int)allergen)
+            .Distinct().ToList();
+        return allergicToList.ToArray();
     }
 
-    private void AdjustAllergyScore()
+    private List<Allergen> GetAllergenList()
     {
-        while(allergyPoints > 255)
-        {
-            if (allergyPoints > 255)
-            {
-                allergyPoints %= 255;
-            }
-        }
-        allergyPoints -= (int)Allergen.Eggs;
+        return Enum.GetValues(typeof(Allergen))
+            .Cast<Allergen>()
+            .ToList();
+    }
+
+    public bool IsAllergicTo(Allergen allergen)
+    {
+        return allergyPoints >= (int)allergen;
     }
 }
