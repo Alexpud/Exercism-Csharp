@@ -4,6 +4,7 @@ using System.Collections;
 using System.Linq;
 using System.Linq.Expressions;
 
+[Flags]
 public enum Allergen
 {
     Eggs = 1,
@@ -34,26 +35,15 @@ public class Allergies
 
     public Allergen[] List()
     {
-        var allergens = GetAllergenList();
-        allergens.Reverse();
-        foreach(var allergen in allergens)
-        {
-            if (IsAllergicTo(allergen))
-            {
-                allergyPoints -= (int)allergen;
-                allergicToList.Add(allergen);
-            }
-        }
-        allergicToList = allergicToList.OrderBy(allergen => (int)allergen)
-            .Distinct().ToList();
-        return allergicToList.ToArray();
-    }
-
-    private List<Allergen> GetAllergenList()
-    {
-        return Enum.GetValues(typeof(Allergen))
-            .Cast<Allergen>()
-            .ToList();
+        if (allergyPoints == 0) return new Allergen[] {};
+        var allergens = (Allergen)allergyPoints;
+        var allergensArray = allergens.ToString().Split(',');
+        var allergenList = allergensArray
+            .Select(allergen => 
+                (Allergen)Enum.Parse(typeof(Allergen), allergen)).ToArray();
+        
+        allergicToList.AddRange(allergenList);
+        return allergicToList.Distinct().ToArray();
     }
 
     public bool IsAllergicTo(Allergen allergen)
