@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 [Flags]
 public enum Allergen
 {
+    None = 0,
     Eggs = 1,
     Peanuts = 2,
     Shellfish = 4 ,
@@ -19,35 +20,37 @@ public enum Allergen
 
 public class Allergies
 {
-    private int allergyPoints;
+    private int mask;
     private const int MaxAllergyPoints = 255;
-    private List<Allergen> allergicToList;
+    private List<Allergen> allergicToList = new List<Allergen>();
 
     public Allergies(int mask)
     {
-        allergicToList = mask > MaxAllergyPoints ? 
-            new List<Allergen>() { Allergen.Eggs} :
-            new List<Allergen>();
+        this.mask = mask;
+        if ((int)Allergen.None == this.mask)
+        {
+            return;
+        }
 
-        allergyPoints = mask > MaxAllergyPoints ? 
-            (mask & MaxAllergyPoints)  : mask;
+        if (this.mask > MaxAllergyPoints)
+        {
+            this.mask = (this.mask % MaxAllergyPoints) - 1;
+            allergicToList.Add(Allergen.Eggs);
+        }
+
+        var allergens = (Allergen)this.mask;
+        allergicToList = allergens.ToString().Split(", ")
+            .Select(allergen => (Allergen)Enum.Parse(typeof(Allergen), allergen))
+            .Distinct().ToList();
     }
 
     public Allergen[] List()
     {
-        if (allergyPoints == 0) return new Allergen[] {};
-        var allergens = (Allergen)allergyPoints;
-        var allergensArray = allergens.ToString().Split(',');
-        var allergenList = allergensArray
-            .Select(allergen => 
-                (Allergen)Enum.Parse(typeof(Allergen), allergen)).ToArray();
-        
-        allergicToList.AddRange(allergenList);
-        return allergicToList.Distinct().ToArray();
+        return allergicToList.ToArray();
     }
 
     public bool IsAllergicTo(Allergen allergen)
     {
-        return allergyPoints >= (int)allergen;
+        return (mask & (int)allergen) > 0;
     }
 }
