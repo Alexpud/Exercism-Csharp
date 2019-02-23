@@ -7,21 +7,17 @@ public static class Series
     public static string[] Slices(string numbers, int sliceLength)
     {
         ValidateSeriesSlicing(numbers, sliceLength);
-        List<string> result = new List<string>();
-        for (int j = 0; j < numbers.Length; j++)
+        List<string> slicesList = new List<string>();
+        for (int j = 0; j <= numbers.Length - sliceLength; j++)
         {
-            if (j + sliceLength > numbers.Length)
-            {
-                break;
-            }
-            result.Add(numbers.Substring(j, sliceLength));
+            slicesList.Add(numbers.Substring(j, sliceLength));
         }
-        return result.ToArray();
+        return slicesList.ToArray();
     }
 
     private static void ValidateSeriesSlicing(string series, int sliceLength)
     {
-        if (!IsSliceValid(sliceLength, series.Length ) || !IsSeriesValid(series))
+        if (!IsSliceValid(sliceLength, series.Length ) || string.IsNullOrEmpty(series))
         {
             throw new ArgumentException();
         }
@@ -32,11 +28,5 @@ public static class Series
         bool sliceLengthSmallerThanSeriesLength = sliceLength <= seriesLength;
         bool nonNegativeSliceLength = sliceLength > 0;
         return sliceLengthSmallerThanSeriesLength && nonNegativeSliceLength;
-    }
-
-    private static bool IsSeriesValid(string series)
-    {
-        bool seriesNotEmpty = !string.IsNullOrEmpty(series);
-        return seriesNotEmpty;
     }
 }
