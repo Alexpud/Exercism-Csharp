@@ -9,7 +9,14 @@ public static class ErrorHandling
 
     public static int? HandleErrorByReturningNullableType(string input)
     {
-        return Char.IsDigit(input[0]) ? (int?)Int32.Parse(input) : null;
+        try
+        {
+            return Int32.Parse(input);
+        }
+        catch (Exception)
+        {
+            return null;
+        }
     }
 
     public static bool HandleErrorWithOutParam(string input, out int result)
