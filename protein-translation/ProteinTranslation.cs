@@ -25,8 +25,6 @@ public static class ProteinTranslation
         {"UGA", "Stop"}
     };
 
-    private const int CODON_SIZE = 3;
-
     public static string[] Proteins(string strand)
     {
         return GetProteinList(strand).ToArray();
@@ -50,7 +48,7 @@ public static class ProteinTranslation
 
     private static MatchCollection GetCodonMatches(string strand)
     {
-        Regex reg = new Regex(@"(?<word>\w{" + CODON_SIZE + "})");
+        Regex reg = new Regex(@"(?<word>\w{3})");
         return reg.Matches(strand);
     }
 }
