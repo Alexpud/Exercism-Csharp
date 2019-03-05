@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 public static class ProteinTranslation
 {
-    private static Dictionary<string, string> dict = new Dictionary<string, string>()
+    private static Dictionary<string, string> codonProteinDictionary = new Dictionary<string, string>()
     {
         {"AUG", "Methionine"},
         {"UUU", "Phenylalanine"},
@@ -25,20 +25,32 @@ public static class ProteinTranslation
         {"UGA", "Stop"}
     };
 
+    private const int CODON_SIZE = 3;
+
     public static string[] Proteins(string strand)
     {
-        Regex reg = new Regex(@"(?<word>\w{3})");
-        var proteinList = new List<string>();
-        foreach(Match match in reg.Matches(strand))
+        return GetProteinList(strand).ToArray();
+    }
+
+    private static List<string> GetProteinList(string strand)
+    {
+        List<string> proteinList = new List<string>();
+        foreach(Match match in GetCodonMatches(strand))
         {
             GroupCollection groups = match.Groups;
-            var dictEntry = dict[groups["word"].Value];
+            var dictEntry = codonProteinDictionary[groups["word"].Value];
             if (dictEntry == "Stop")
             {
-                return proteinList.ToArray();
+                return proteinList;
             }
             proteinList.Add(dictEntry);
         }
-        return proteinList.ToArray();
+        return proteinList;
+    }
+
+    private static MatchCollection GetCodonMatches(string strand)
+    {
+        Regex reg = new Regex(@"(?<word>\w{" + CODON_SIZE + "})");
+        return reg.Matches(strand);
     }
 }
