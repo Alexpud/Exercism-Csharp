@@ -12,40 +12,15 @@ public class RobotSimulator
 {
     public RobotSimulator(Direction direction, int x, int y)
     {
-        _direction = direction;
-        _x = x;
-        _y = y;
+        Direction = direction;
+        X = x;
+        Y = y;
     }
 
-    private Direction _direction;
+    public Direction Direction { get; private set;}
 
-    public Direction Direction
-    {
-        get
-        {
-            return _direction;
-        }
-    }
-
-    private int _x;
-
-    public int X
-    {
-        get
-        {
-            return _x;
-        }
-    }
-
-    private int _y;
-
-    public int Y
-    {
-        get
-        {
-            return _y;
-        }
-    }
+    public int X { get; private set; }
+    public int Y { get; private set; } 
 
     public void Move(string instructions)
     {
@@ -64,43 +39,65 @@ public class RobotSimulator
                 case 'A':
                     MoveForward();
                     break;
+
+                default:
+                    throw new ArgumentOutOfRangeException("Unrecognized instruction");
             }
         }
     }
 
     private void MoveRight()
     {
-        int value = (int)_direction + 1;
-        bool clockWiseCircle = value >= Enum.GetValues(typeof(Direction)).Length;
+        int directionValue = (int)Direction + 1;
+        bool clockWiseCircle = directionValue  >= Enum.GetValues(typeof(Direction)).Length;
         if (clockWiseCircle)
         {
-            value = 0;
+            directionValue = 0;
         }
-        Enum.TryParse(value.ToString(), out _direction);
+
+        SetDirection(directionValue);
+    }
+
+    private void SetDirection(int directionValue)
+    {
+        Direction direction;
+        Enum.TryParse(directionValue.ToString(), out direction);
+        Direction = direction;
     }
 
     private void MoveLeft()
     {
-        int value = (int)_direction - 1;
+        int value = (int)Direction - 1;
         bool counterClockWiseCircle = value < 0;
         if (counterClockWiseCircle)
         {
             value = Enum.GetValues(typeof(Direction)).Length - 1;
         }
-        Enum.TryParse(value.ToString(), out _direction);
+        SetDirection(value);
     }
 
     private void MoveForward()
     {
-        if (_direction == Direction.South || _direction == Direction.North)
+        switch(Direction)
         {
-            _y += _direction == Direction.South ? -1 :
-                _direction == Direction.North ? 1 : 0;
-            return;
-        }
-        
-        _x += _direction == Direction.East ? 1 :
-            _direction == Direction.West ? -1 : 0;
-    }
+            case Direction.South:
+                Y += -1;
+                break;
 
+            case Direction.North:
+                Y += 1;
+                break;
+
+            case Direction.West:
+                X += -1;
+                break;
+
+            case Direction.East:
+                X += 1;
+                break;
+
+            default:
+                throw new ArgumentOutOfRangeException("Unrecognized direction");
+        }
+    }
 }
