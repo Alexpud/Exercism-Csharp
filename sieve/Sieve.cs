@@ -4,6 +4,8 @@ using System.Linq;
 
 public static class Sieve
 {
+    private static bool[] primes;
+
     public static int[] Primes(int limit)
     {
         if (limit < 2)
@@ -11,49 +13,41 @@ public static class Sieve
             throw new ArgumentOutOfRangeException("No primes smaller than 2");
         }
 
-        return GetPrimeNumbersArray(GetPossiblePrimeNumbersArray(limit));
+        return GetPrimeNumbersArray(limit);
     }
 
-    private static bool[] GetPossiblePrimeNumbersArray(int limit)
+    private static int[] GetPrimeNumbersArray(int limit)
     {
         int currentPrime = 2;
-        bool[] possiblePrimeNumbersArray = new bool[limit + 1];
-        while (currentPrime > 0 && limit > 2)
+        List<int> numbers = Enumerable.Range(currentPrime, limit - 1).ToList();
+        List<int> potentialPrimesList = new List<int>()
         {
-            for (int i = currentPrime + 1; i < possiblePrimeNumbersArray.Length; i ++)
-            {
-                if (i % currentPrime == 0)
-                {
-                    possiblePrimeNumbersArray[i] = true;
-                }
-            }
-            currentPrime = GetNextPrimeNumber(possiblePrimeNumbersArray, currentPrime);
+            currentPrime
+        };
+        List<int> finalPrimeList = new List<int>();
+
+        while (currentPrime != numbers.LastOrDefault())
+        {
+            potentialPrimesList = GetNotMultiplesOf(numbers, currentPrime);
+            numbers = potentialPrimesList;
+            finalPrimeList.Add(currentPrime);
+            currentPrime = numbers.FirstOrDefault();
         }
-        return possiblePrimeNumbersArray;
+
+        finalPrimeList.Add(currentPrime);
+        return finalPrimeList.ToArray();
     }
 
-    private static int GetNextPrimeNumber(bool[] possiblePrimeNumbersArray, int currentPrime)
+    private static List<int> GetNotMultiplesOf(List<int> possibleMultiplesList, int number)
     {
-        for (int i = currentPrime + 1; i < possiblePrimeNumbersArray.Length; i++)
+        List<int> potentialPrimesList = new List<int>();
+        foreach(var possibleMultiple in possibleMultiplesList)
         {
-            if (possiblePrimeNumbersArray[i] == false)
+            if (possibleMultiple % number != 0)
             {
-                return i;
+                potentialPrimesList.Add(possibleMultiple);
             }
         }
-        return -1;
-    }
-
-    private static int[] GetPrimeNumbersArray(bool[] possiblePrimeNumbersArray)
-    {
-        List<int> primeNumberList = new List<int>();
-        for (int i = 2; i < possiblePrimeNumbersArray.Length; i++)
-        {
-            if (!possiblePrimeNumbersArray[i])
-            {
-                primeNumberList.Add(i);
-            }
-        }
-        return primeNumberList.ToArray();
+        return potentialPrimesList;
     }
 }
