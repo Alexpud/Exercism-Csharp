@@ -31,10 +31,8 @@ public static class SecretHandshake
         }
         return commands.ToArray();
     }
-
     private static string ParseHandshake(handshakes handshake)
     {
-        var name = Enum.GetName(typeof(handshakes), handshake);
         switch(handshake)
         {
             case handshakes.Wink:

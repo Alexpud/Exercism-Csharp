@@ -14,8 +14,7 @@ public class SpaceAge
 
     public SpaceAge(long seconds)
     {
-        var x = GetHours(GetMinutes(seconds));
-        _days = (decimal)GetDays(GetHours(GetMinutes(seconds)));
+        _days = (decimal)GetDays((int)GetHours(GetMinutes(seconds)));
     }
 
     public double OnEarth()
