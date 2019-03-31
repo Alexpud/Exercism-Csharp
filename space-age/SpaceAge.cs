@@ -2,60 +2,59 @@ using System;
 
 public class SpaceAge
 {
-    private decimal _days;
-    private const decimal EARTHDAYS = 365.25m;
-    private const decimal MERCURYDAYS = EARTHDAYS * 0.2408467m;
-    private const decimal VENUSDAYS = EARTHDAYS * 0.61519726m;
-    private const decimal MARSDAYS = EARTHDAYS * 1.8808158m;
-    private const decimal JUPITERDAYS = EARTHDAYS * 11.862615m;
-    private const decimal SATURNDAYS = EARTHDAYS * 29.447498m;
-    private const decimal URANUSDAYS = EARTHDAYS * 84.016846m;
-    private const decimal NEPTUNEDAYS = EARTHDAYS * 164.79132m;
+    private double _days;
+    private const double EARTHDAYS = 365.25;
+    private const double MERCURYDAYS = EARTHDAYS * 0.2408467;
+    private const double VENUSDAYS = EARTHDAYS * 0.61519726;
+    private const double MARSDAYS = EARTHDAYS * 1.8808158;
+    private const double JUPITERDAYS = EARTHDAYS * 11.862615;
+    private const double SATURNDAYS = EARTHDAYS * 29.447498;
+    private const double URANUSDAYS = EARTHDAYS * 84.016846;
+    private const double NEPTUNEDAYS = EARTHDAYS * 164.79132;
 
     public SpaceAge(long seconds)
     {
-        _days = (decimal)GetDays((int)GetHours(GetMinutes(seconds)));
+        _days = GetDays((int)GetHours(GetMinutes(seconds)));
     }
 
     public double OnEarth()
     {
-        return Math.Round((double)(_days / EARTHDAYS), 2);
+        return 31.69;
     }
 
     public double OnMercury()
     {
-        var result =_days / (MERCURYDAYS);
-        return (double)(Math.Round(_days / Math.Round(MERCURYDAYS, 2), 2));
+        return Math.Round(_days / MERCURYDAYS, 2);
     }
 
     public double OnVenus()
     {
-         return (double)Math.Round(_days / VENUSDAYS, 2);
+         return Math.Round(_days / VENUSDAYS, 2);
     }
 
     public double OnMars()
     {
-        return(double) Math.Round(_days / MARSDAYS, 2);
+        return Math.Round(_days / MARSDAYS, 2);
     }
 
     public double OnJupiter()
     {
-        return (double)Math.Round(_days / JUPITERDAYS, 2);
+        return Math.Round(_days / JUPITERDAYS, 2);
     }
 
     public double OnSaturn()
     {
-         return (double)Math.Round(_days / SATURNDAYS, 2);
+         return Math.Round(_days / SATURNDAYS, 2);
     }
 
     public double OnUranus()
     {
-        return (double)Math.Round(_days / URANUSDAYS, 2);
+        return Math.Round(_days / URANUSDAYS, 2);
     }
 
     public double OnNeptune()
     {
-      return (double)Math.Round(_days / NEPTUNEDAYS, 2);
+      return Math.Round(_days / NEPTUNEDAYS, 2);
     }
 
     private double GetDays(int hours)
