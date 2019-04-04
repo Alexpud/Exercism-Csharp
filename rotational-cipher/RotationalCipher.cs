@@ -2,10 +2,13 @@ using System;
 
 public static class RotationalCipher
 {
-    private const int LetteraASCIIValue = 97;
-    private const int LetterzASCIIValue = 122;
-    private const int LetterAASCIIValue = 65;
-    private const int LetterZASCIIValue = 90;
+    private enum ASCIILetterValue
+    {
+        a = 97,
+        z = 122,
+        A = 65,
+        Z = 90
+    }
     
     public static string Rotate(string text, int shiftKey)
     {
@@ -36,22 +39,24 @@ public static class RotationalCipher
 
     private static char RotateLowerCaseLetter(char letter, int shiftKey)
     {
-        int letterInt = ((int)letter + shiftKey);
-        if (letterInt > LetterzASCIIValue)
+        int shiftedLetterASCIIValue = ((int)letter + shiftKey);
+        if (shiftedLetterASCIIValue > (int)ASCIILetterValue.z)
         {
-            letterInt = LetteraASCIIValue + (letterInt - (LetterzASCIIValue + 1));
+            shiftedLetterASCIIValue = (int)ASCIILetterValue.a + 
+                (shiftedLetterASCIIValue - ((int)ASCIILetterValue.z + 1));
         }
-        return Convert.ToChar(letterInt);
+        return Convert.ToChar(shiftedLetterASCIIValue);
     }
 
     private static char RotateUpperCaseLetter(char letter, int shiftKey)
     {
-        int letterInt = ((int)letter + shiftKey);
-        if (letterInt > LetterZASCIIValue)
+        int shiftedLetterASCIIValue = ((int)letter + shiftKey);
+        if (shiftedLetterASCIIValue > (int)ASCIILetterValue.Z)
         {
-            letterInt = LetterAASCIIValue + (letterInt - (LetterZASCIIValue + 1));
+            shiftedLetterASCIIValue = (int)ASCIILetterValue.A + 
+                (shiftedLetterASCIIValue - ((int)ASCIILetterValue.Z + 1));
         }
 
-        return Convert.ToChar(letterInt);
+        return Convert.ToChar(shiftedLetterASCIIValue);
     }
 }
