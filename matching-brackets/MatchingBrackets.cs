@@ -4,20 +4,34 @@ using System.Collections.Generic;
 
 public static class MatchingBrackets
 {
-    private static List<string> leftSideElements = new List<string>();
-    private static List<string> rightSideElements = new List<string>();
-
+    private const string rightSideSymbols = "])}";
+    private const string leftSideSymbols = "[({";
     public static bool IsPaired(string input)
     {
+        Stack<string> rightSideElements = new Stack<string>();
+        Stack<string> leftSideElements = new Stack<string>();
     	foreach(var letter in input)
     	{
-    		MatchLetterToABracket(letter.ToString());
-    		switch(letter)
+            if (Char.IsWhiteSpace(letter))
+            {
+                continue;
+            }
+
+            if (leftSideSymbols.Contains(letter.ToString()))
+            {
+                leftSideElements.Push(letter.ToString());
+            }
+            if (rightSideSymbols.Contains(letter.ToString()))
+            {
+                rightSideElements.Push(letter.ToString());
+            }
+    		
+            switch(letter)
     		{
     			case ']':
-    				if (leftSideElements.LastOrDefault() == "[")
+    				if (leftSideElements.Count > 0 && leftSideElements.Peek() == "[")
     				{
-    					RemoveRecentPairOfMatchingBrackets();
+    					RemoveRecentPairOfMatchingBrackets(leftSideElements, rightSideElements);
     				}
     				else 
     				{
@@ -25,9 +39,9 @@ public static class MatchingBrackets
     				}
     				break;
     			case '}':
-    				if (leftSideElements.LastOrDefault() == "{")
+    				if (leftSideElements.Count > 0 && leftSideElements.Peek() == "{")
     				{
-    					RemoveRecentPairOfMatchingBrackets();
+    					RemoveRecentPairOfMatchingBrackets(leftSideElements, rightSideElements);
     				}
     				else 
     				{
@@ -36,9 +50,9 @@ public static class MatchingBrackets
     				break;
 
     			case ')':
-    				if (leftSideElements.LastOrDefault() == "(")
+    				if (leftSideElements.Peek() == "(")
     				{
-    					RemoveRecentPairOfMatchingBrackets();
+    					RemoveRecentPairOfMatchingBrackets(leftSideElements, rightSideElements);
     				}
     				else 
     				{
@@ -50,27 +64,10 @@ public static class MatchingBrackets
     	return leftSideElements.Count() == rightSideElements.Count();
     }
 
-    private static void MatchLetterToABracket(string bracket)
+    private static void RemoveRecentPairOfMatchingBrackets(Stack<string> leftSideElements,
+        Stack<string> rightSideElements)
     {
-    	if (string.IsNullOrEmpty(bracket))
-    	{
-    		return;
-    	}
-    	string leftSideSymbols = "[({";
-    	string rightSideSymbols = "])}";
-    	if (leftSideSymbols.Contains(bracket))
-    	{
-    		leftSideElements.Add(bracket);
-    	}
-    	if (rightSideSymbols.Contains(bracket))
-    	{
-    		rightSideElements.Add(bracket);
-    	}
-    }
-
-    private static void RemoveRecentPairOfMatchingBrackets()
-    {
-    	leftSideElements.RemoveAt(leftSideElements.Count() - 1);
-    	rightSideElements.RemoveAt(rightSideElements.Count() - 1);
+        leftSideElements.Pop();
+        rightSideElements.Pop();
     }
 }
