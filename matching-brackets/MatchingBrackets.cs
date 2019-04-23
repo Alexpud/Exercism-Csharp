@@ -8,8 +8,7 @@ public static class MatchingBrackets
     private const string leftSideSymbols = "[({";
     public static bool IsPaired(string input)
     {
-        Stack<string> rightSideElements = new Stack<string>();
-        Stack<string> leftSideElements = new Stack<string>();
+        Stack<string> singleStack = new Stack<string>();
     	foreach(var letter in input)
     	{
             if (Char.IsWhiteSpace(letter))
@@ -19,55 +18,48 @@ public static class MatchingBrackets
 
             if (leftSideSymbols.Contains(letter.ToString()))
             {
-                leftSideElements.Push(letter.ToString());
+                singleStack.Push(letter.ToString());
+                continue;
             }
+
             if (rightSideSymbols.Contains(letter.ToString()))
             {
-                rightSideElements.Push(letter.ToString());
+                switch(letter)
+                {
+                    case ']':
+                        if (singleStack.Count > 0 && singleStack.Peek() == "[")
+                        {
+                            singleStack.Pop();
+                        }
+                        else 
+                        {
+                            return false;
+                        }
+                        break;
+                    case '}':
+                        if (singleStack.Count > 0 && singleStack.Peek() == "{")
+                        {
+                            singleStack.Pop();
+                        }
+                        else 
+                        {
+                            return false;
+                        }
+                        break;
+    
+                    case ')':
+                        if (singleStack.Peek() == "(")
+                        {
+                            singleStack.Pop();
+                        }
+                        else 
+                        {
+                            return false;
+                        }
+                        break;
+                }
             }
-    		
-            switch(letter)
-    		{
-    			case ']':
-    				if (leftSideElements.Count > 0 && leftSideElements.Peek() == "[")
-    				{
-    					RemoveRecentPairOfMatchingBrackets(leftSideElements, rightSideElements);
-    				}
-    				else 
-    				{
-    					return false;
-    				}
-    				break;
-    			case '}':
-    				if (leftSideElements.Count > 0 && leftSideElements.Peek() == "{")
-    				{
-    					RemoveRecentPairOfMatchingBrackets(leftSideElements, rightSideElements);
-    				}
-    				else 
-    				{
-    					return false;
-    				}
-    				break;
-
-    			case ')':
-    				if (leftSideElements.Peek() == "(")
-    				{
-    					RemoveRecentPairOfMatchingBrackets(leftSideElements, rightSideElements);
-    				}
-    				else 
-    				{
-    					return false;
-    				}
-    				break;
-    		}
     	}
-    	return leftSideElements.Count() == rightSideElements.Count();
-    }
-
-    private static void RemoveRecentPairOfMatchingBrackets(Stack<string> leftSideElements,
-        Stack<string> rightSideElements)
-    {
-        leftSideElements.Pop();
-        rightSideElements.Pop();
+    	return singleStack.Count() == 0;
     }
 }
