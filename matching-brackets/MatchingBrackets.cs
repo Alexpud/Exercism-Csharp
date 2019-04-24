@@ -19,24 +19,33 @@ public static class MatchingBrackets
             foreach(var leftBracket in leftRightBracketDict.Keys)
             {
                 bool isLeftBracket = leftBracket == letter;
-                bool isRightBracket = leftRightBracketDict[leftBracket] == letter;
                 if (isLeftBracket)
                 {
                     bracketStack.Push(letter);
                     break;
                 }
 
+                bool isRightBracket = leftRightBracketDict[leftBracket] == letter;
                 if (isRightBracket)
                 {
-                    if (bracketStack.Count > 0 && bracketStack.Peek() == leftBracket)
+                    if (TryPop(bracketStack, leftBracket))
                     {
-                        bracketStack.Pop();
-                        break;
+                        continue;
                     }
                     return false;
                 }
             }
     	}
     	return bracketStack.Count == 0;
+    }
+
+    private static bool TryPop(Stack<char> bracketStack, char bracket)
+    {
+        if (bracketStack.Count > 0 && bracketStack.Peek() == bracket)
+        {
+            bracketStack.Pop();
+            return true;
+        }
+        return false;
     }
 }
