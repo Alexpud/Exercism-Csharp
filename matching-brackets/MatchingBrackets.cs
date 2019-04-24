@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public static class MatchingBrackets
 {
-    private static readonly Dictionary<char, char> leftRightBracketsDict = 
+    private static readonly Dictionary<char, char> leftRightBracketDict = 
             new Dictionary<char, char>()
             {
                 {'[', ']'},
@@ -16,10 +16,10 @@ public static class MatchingBrackets
         Stack<char> bracketStack = new Stack<char>();
     	foreach(var letter in input)
     	{
-            foreach(var leftBracket in leftRightBracketsDict.Keys)
+            foreach(var leftBracket in leftRightBracketDict.Keys)
             {
                 bool isLeftBracket = leftBracket == letter;
-                bool isRightBracket = leftRightBracketsDict[leftBracket] == letter;
+                bool isRightBracket = leftRightBracketDict[leftBracket] == letter;
                 if (isLeftBracket)
                 {
                     bracketStack.Push(letter);
@@ -33,12 +33,8 @@ public static class MatchingBrackets
                         bracketStack.Pop();
                         break;
                     }
-                    else 
-                    {
-                        return false;
-                    }
+                    return false;
                 }
-            
             }
     	}
     	return bracketStack.Count == 0;
