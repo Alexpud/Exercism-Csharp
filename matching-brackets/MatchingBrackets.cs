@@ -8,26 +8,22 @@ public static class MatchingBrackets
     private const string leftSideSymbols = "[({";
     public static bool IsPaired(string input)
     {
-        Stack<string> singleStack = new Stack<string>();
+        Stack<char> singleStack = new Stack<char>();
     	foreach(var letter in input)
     	{
-            if (Char.IsWhiteSpace(letter))
+            if (leftSideSymbols.Contains(letter))
             {
+                singleStack.Push(letter);
                 continue;
             }
 
-            if (leftSideSymbols.Contains(letter.ToString()))
+            if (rightSideSymbols.Contains(letter))
             {
-                singleStack.Push(letter.ToString());
-                continue;
-            }
-
-            if (rightSideSymbols.Contains(letter.ToString()))
-            {
+                int nStackElements = singleStack.Count;
                 switch(letter)
                 {
                     case ']':
-                        if (singleStack.Count > 0 && singleStack.Peek() == "[")
+                        if (nStackElements > 0 && singleStack.Peek() == '[')
                         {
                             singleStack.Pop();
                         }
@@ -37,7 +33,7 @@ public static class MatchingBrackets
                         }
                         break;
                     case '}':
-                        if (singleStack.Count > 0 && singleStack.Peek() == "{")
+                        if (nStackElements > 0 && singleStack.Peek() == '{')
                         {
                             singleStack.Pop();
                         }
@@ -48,7 +44,7 @@ public static class MatchingBrackets
                         break;
     
                     case ')':
-                        if (singleStack.Peek() == "(")
+                        if (singleStack.Peek() == '(')
                         {
                             singleStack.Pop();
                         }
@@ -60,6 +56,6 @@ public static class MatchingBrackets
                 }
             }
     	}
-    	return singleStack.Count() == 0;
+    	return singleStack.Count == 0;
     }
 }
