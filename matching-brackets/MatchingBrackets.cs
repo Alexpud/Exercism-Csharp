@@ -4,58 +4,43 @@ using System.Collections.Generic;
 
 public static class MatchingBrackets
 {
-    private const string rightSideSymbols = "])}";
-    private const string leftSideSymbols = "[({";
+    private static readonly Dictionary<char, char> leftRightBracketsDict = 
+            new Dictionary<char, char>()
+            {
+                {'[', ']'},
+                {'(', ')'}, 
+                {'{', '}'},
+            };
     public static bool IsPaired(string input)
     {
-        Stack<char> singleStack = new Stack<char>();
+        Stack<char> bracketStack = new Stack<char>();
     	foreach(var letter in input)
     	{
-            if (leftSideSymbols.Contains(letter))
+            foreach(var leftBracket in leftRightBracketsDict.Keys)
             {
-                singleStack.Push(letter);
-                continue;
-            }
-
-            if (rightSideSymbols.Contains(letter))
-            {
-                int nStackElements = singleStack.Count;
-                switch(letter)
+                bool isLeftBracket = leftBracket == letter;
+                bool isRightBracket = leftRightBracketsDict[leftBracket] == letter;
+                if (isLeftBracket)
                 {
-                    case ']':
-                        if (nStackElements > 0 && singleStack.Peek() == '[')
-                        {
-                            singleStack.Pop();
-                        }
-                        else 
-                        {
-                            return false;
-                        }
-                        break;
-                    case '}':
-                        if (nStackElements > 0 && singleStack.Peek() == '{')
-                        {
-                            singleStack.Pop();
-                        }
-                        else 
-                        {
-                            return false;
-                        }
-                        break;
-    
-                    case ')':
-                        if (singleStack.Peek() == '(')
-                        {
-                            singleStack.Pop();
-                        }
-                        else 
-                        {
-                            return false;
-                        }
-                        break;
+                    bracketStack.Push(letter);
+                    break;
                 }
+
+                if (isRightBracket)
+                {
+                    if (bracketStack.Count > 0 && bracketStack.Peek() == leftBracket)
+                    {
+                        bracketStack.Pop();
+                        break;
+                    }
+                    else 
+                    {
+                        return false;
+                    }
+                }
+            
             }
     	}
-    	return singleStack.Count == 0;
+    	return bracketStack.Count == 0;
     }
 }
