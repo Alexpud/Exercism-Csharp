@@ -5,7 +5,6 @@ public class BankAccount
 {
     private double balance;
     private bool isClosed = false;
-    private int isLocked;
     private readonly Object lockObj = new Object();
 
     public void Open()
@@ -15,10 +14,7 @@ public class BankAccount
 
     public void Close()
     {
-        if (isClosed)
-        {
-            throw new InvalidOperationException("Cant execute operations on a closed account");
-        }
+        ValidateOperation();
         isClosed = true;
     }
 
@@ -26,11 +22,16 @@ public class BankAccount
     {
         get
         {
-            if (isClosed)
-            {
-                throw new InvalidOperationException("Cant execute operations on a closed account");
-            }
+            ValidateOperation();
             return Convert.ToDecimal(balance);
+        }
+    }
+
+    private void ValidateOperation()
+    {
+        if (isClosed)
+        {
+            throw new InvalidOperationException("Cant execute operations on a closed account");
         }
     }
 
