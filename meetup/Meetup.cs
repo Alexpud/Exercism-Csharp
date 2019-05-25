@@ -20,58 +20,35 @@ public class Meetup
 
     public DateTime Day(DayOfWeek dayOfWeek, Schedule schedule)
     {
-        DateTime baseDateForNextMeetup = CalculateBaseDateForNextMeetup(previousMeetupDate, schedule);
-        int requiredOcurrences = RequiredOcurrences(schedule);
-        return CalculateNextMeetupDate(baseDateForNextMeetup, requiredOcurrences, dayOfWeek);
+        DateTime nextMeetupDate = CalculateBaseDateForNextMeetup(previousMeetupDate, schedule);
+        while (nextMeetupDate.DayOfWeek != dayOfWeek)
+        {
+            nextMeetupDate = nextMeetupDate.AddDays(1);
+        }
+        return nextMeetupDate;
     }
 
     private DateTime CalculateBaseDateForNextMeetup(DateTime previousMeetupDate, Schedule schedule)
     {
-        if (schedule == Schedule.Teenth)
-        {
-            return previousMeetupDate.AddDays(12);
-        }
-
-        if (schedule == Schedule.Last)
-        {
-            var daysInMonth = DateTime.DaysInMonth(previousMeetupDate.Year, previousMeetupDate.Month);
-            return previousMeetupDate.AddDays(daysInMonth - 7);
-        }
-
-        return previousMeetupDate; 
-    }
-
-    private int RequiredOcurrences(Schedule schedule)
-    {
+        int days = 0;
         switch (schedule)
         {
-            case Schedule.Second:
-                return 2;
-            case Schedule.Third:
-                return 3;
-            case Schedule.Fourth:
-                return 4;
-            default:
-                return 1;
-        }
-    }
-
-    private DateTime CalculateNextMeetupDate(DateTime baseDateForNextMeetup, int requiredOcurrences,
-        DayOfWeek dayOfWeek)
-    {
-        DateTime nextMeetupDate = baseDateForNextMeetup;
-        while (true)
-        {
-            if (nextMeetupDate.DayOfWeek == dayOfWeek)
-            {
-                requiredOcurrences--;
-            }
-            if (requiredOcurrences == 0)
-            {
+            case Schedule.Teenth:
+                days = 12;
                 break;
-            }
-            nextMeetupDate = nextMeetupDate.AddDays(1);
+            case Schedule.Second:
+                days = 7;
+                break;
+            case Schedule.Third:
+                days = 14;
+                break;
+            case Schedule.Fourth:
+                days = 21;
+                break;
+            case Schedule.Last:
+                days = previousMeetupDate.AddMonths(1).AddDays(-8).Day;
+                break;
         }
-        return nextMeetupDate;
+        return previousMeetupDate.AddDays(days);
     }
 }
