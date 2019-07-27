@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 
 public static class BeerSong
 {
@@ -20,10 +19,10 @@ public static class BeerSong
 
     private static string FirstVerse(int startBottles)
     {
-    	return $"{GetBottlesAtBegginingFirstVerse(startBottles)} of beer on the wall, {GetBottles(startBottles)} of beer.\n";
+    	return $"{GetBegginingOfFirstVerse(startBottles)} of beer on the wall, {GetBottlesForSecondPartOfVerse(startBottles)} of beer.\n";
     }
 
-    private static string GetBottlesAtBegginingFirstVerse(int bottleQuantity)
+    private static string GetBegginingOfFirstVerse(int bottleQuantity)
     {
     	if (bottleQuantity == 1)
     	{
@@ -38,29 +37,22 @@ public static class BeerSong
 
     private static string SecondVerse(int startBottles, int bottlesLeft)
     {
-    	string firstPhrase = GetSecondVerseFirstPhrase(startBottles, bottlesLeft);
-
-    	string secondPhrase = "";
-    	int bottles = bottlesLeft;
-    	if (startBottles == 0)
-    	{
-    		bottles = 99;
-    	}
-    	return $"{firstPhrase}, {GetBottles(bottles)} of beer on the wall.";	
+		bottlesLeft = startBottles == 0 ? 99 : bottlesLeft;
+    	return $"{GetBegginingOfSecondVerse(startBottles, bottlesLeft)}, {GetBottlesForSecondPartOfVerse(bottlesLeft)} of beer on the wall.";	
     }
 
-    private static string GetSecondVerseFirstPhrase(int startBottles, int bottlesLeft)
+    private static string GetBegginingOfSecondVerse(int startBottles, int bottlesLeft)
     {
     	if (startBottles == 0)
     	{
     		return "Go to the store and buy some more";
     	}
 
-    	string quantity = bottlesLeft != 0 ? "one" : "it";
-    	return $"Take {quantity} down and pass it around";
+    	string bottlesQuantity = bottlesLeft != 0 ? "one" : "it";
+    	return $"Take {bottlesQuantity} down and pass it around";
     }
 
-    private static string GetBottles(int bottleQuantity)
+    private static string GetBottlesForSecondPartOfVerse(int bottleQuantity)
     {
     	if (bottleQuantity == 1)
     	{

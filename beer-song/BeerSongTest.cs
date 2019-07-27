@@ -61,7 +61,7 @@ public class BeerSongTest
         Assert.Equal(expected, BeerSong.Recite(99, 2));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Last_three_verses()
     {
         var expected = 
@@ -76,7 +76,7 @@ public class BeerSongTest
         Assert.Equal(expected, BeerSong.Recite(2, 3));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void All_verses()
     {
         var expected = 
