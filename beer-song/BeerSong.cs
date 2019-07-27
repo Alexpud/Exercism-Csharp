@@ -6,20 +6,20 @@ public static class BeerSong
     public static string Recite(int startBottles, int takeDown)
     {
     	StringBuilder stringBuilder = new StringBuilder();
-    	for (int i = takeDown; i > 0; i --)
-    	{
-    		int bottlesLeft = startBottles - 1;
-    		stringBuilder.Append(FirstVerse(startBottles));
-    		stringBuilder.Append(SecondVerse(startBottles, bottlesLeft));
-    		if (i - 1 > 0) stringBuilder.Append(LINE_BREAK);
-    		startBottles -= 1;
-    	}
+		for (int i = 1; i <= takeDown; i++)
+		{
+			int bottlesLeft = startBottles - i;
+    		stringBuilder.Append(FirstVerse(bottlesLeft + 1));
+    		stringBuilder.Append(SecondVerse(bottlesLeft + 1, bottlesLeft));
+			bool hasMoreThanOneLineToFinish = i < takeDown;
+			if (hasMoreThanOneLineToFinish) stringBuilder.Append(LINE_BREAK);
+		}
     	return stringBuilder.ToString();
     }
 
-    private static string FirstVerse(int startBottles)
+    private static string FirstVerse(int bottles)
     {
-    	return $"{GetBegginingOfFirstVerse(startBottles)} of beer on the wall, {GetBottlesForSecondPartOfVerse(startBottles)} of beer.\n";
+    	return $"{GetBegginingOfFirstVerse(bottles)} of beer on the wall, {GetBottlesForSecondPartOfVerse(bottles)} of beer.\n";
     }
 
     private static string GetBegginingOfFirstVerse(int bottleQuantity)
@@ -35,15 +35,15 @@ public static class BeerSong
     	return bottleQuantity.ToString() + " bottles";
     }
 
-    private static string SecondVerse(int startBottles, int bottlesLeft)
+    private static string SecondVerse(int bottlesLeftBeforeRecitingLine, int bottlesLeft)
     {
-		bottlesLeft = startBottles == 0 ? 99 : bottlesLeft;
-    	return $"{GetBegginingOfSecondVerse(startBottles, bottlesLeft)}, {GetBottlesForSecondPartOfVerse(bottlesLeft)} of beer on the wall.";	
+		bottlesLeft = bottlesLeftBeforeRecitingLine == 0 ? 99 : bottlesLeft;
+    	return $"{GetBegginingOfSecondVerse(bottlesLeftBeforeRecitingLine, bottlesLeft)}, {GetBottlesForSecondPartOfVerse(bottlesLeft)} of beer on the wall.";	
     }
 
-    private static string GetBegginingOfSecondVerse(int startBottles, int bottlesLeft)
+    private static string GetBegginingOfSecondVerse(int bottlesLeftBeforereciteLine, int bottlesLeft)
     {
-    	if (startBottles == 0)
+    	if (bottlesLeftBeforereciteLine == 0)
     	{
     		return "Go to the store and buy some more";
     	}
