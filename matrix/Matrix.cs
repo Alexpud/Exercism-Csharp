@@ -20,14 +20,21 @@ public class Matrix
     private int[][] _matrix;
     public Matrix(string input)
     {
-        var lines = input.SplitByLineBreak();
-        var size = lines.Count();
+        var matrixLine = input.SplitByLineBreak();
+        var size = matrixLine.Count();
         _matrix = new int[size][];
         for(int i = 0; i < size; i++)
         {
-            var row = lines[i].SplitByEmptySpace().Select(y => Convert.ToInt32(y)).ToArray();
+            var row = ConvtertToMatrixRow(matrixLine[i]);
             _matrix[i] = row;
         }
+    }
+
+    private int[] ConvtertToMatrixRow(string line)
+    {
+        return line.SplitByEmptySpace()
+            .Select(number => Convert.ToInt32(number))
+            .ToArray();
     }
 
     public int Rows
