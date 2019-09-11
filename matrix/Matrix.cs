@@ -20,13 +20,12 @@ public class Matrix
     private int[][] _matrix;
     public Matrix(string input)
     {
-        var matrixLine = input.SplitByLineBreak();
-        var size = matrixLine.Count();
-        _matrix = new int[size][];
-        for(int i = 0; i < size; i++)
+        var crudeMatrixLines = input.SplitByLineBreak();
+        var matrixSize = crudeMatrixLines.Count();
+        _matrix = new int[matrixSize][];
+        for(int i = 0; i < matrixSize; i++)
         {
-            var row = ConvtertToMatrixRow(matrixLine[i]);
-            _matrix[i] = row;
+            _matrix[i] = ConvtertToMatrixRow(crudeMatrixLines[i]);
         }
     }
 
