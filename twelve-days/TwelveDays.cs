@@ -12,17 +12,17 @@ public static class TwelveDays
         "three French Hens"
     };
 
-    private static readonly Dictionary<int, string> _begginingOfVerse = new Dictionary<int, string>()
+    private static readonly string[] _begginingOfVerse = new string[]
     {
-        {1, "first"},
-        {2, "second"},
-        {3, "third"}
+        "first",
+        "second",
+        "third"
     };
 
     public static string Recite(int verseNumber)
     {
         var versesParts = AssembleVerseParts(verseNumber);
-        return $"On the {_begginingOfVerse[verseNumber]} day of Christmas my true love gave to me: " + versesParts;
+        return $"On the {_begginingOfVerse[verseNumber - 1]} day of Christmas my true love gave to me: " + versesParts;
     }
 
     private static string AssembleVerseParts(int verseNumber)
