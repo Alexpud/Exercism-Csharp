@@ -88,7 +88,7 @@ public class TwelveDaysTest
         Assert.Equal(expected, TwelveDays.Recite(12));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Recites_first_three_verses_of_the_song()
     {
         var expected = 
@@ -98,7 +98,7 @@ public class TwelveDaysTest
         Assert.Equal(expected, TwelveDays.Recite(1, 3));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Recites_three_verses_from_the_middle_of_the_song()
     {
         var expected = 
@@ -108,7 +108,7 @@ public class TwelveDaysTest
         Assert.Equal(expected, TwelveDays.Recite(4, 6));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Recites_the_whole_song()
     {
         var expected = 

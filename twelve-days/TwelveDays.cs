@@ -40,18 +40,30 @@ public static class TwelveDays
 
     private static string AssembleContents(int verseNumber)
     {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         for(int i = verseNumber; i >= 1; i--)
         {
-            if (verseNumber > 1 && i == 1) sb.Append("and ");
-            sb.Append(VerseNumberToVerse[i].Content);
-            if (i >= 2) sb.Append(", ");
+            bool isPenultimateVerse = verseNumber > 1 && i == 1; 
+            if (isPenultimateVerse) 
+            {
+                stringBuilder.Append("and ");
+            }
+
+            stringBuilder.Append(VerseNumberToVerse[i].Content);
+            bool hasMoreLines = i >= 2;
+            if (!isPenultimateVerse && hasMoreLines) stringBuilder.Append(", ");
         }
-        return sb.ToString();
+        return stringBuilder.ToString();
     }
 
     public static string Recite(int startVerse, int endVerse)
     {
-        throw new NotImplementedException("You need to implement this function.");
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = startVerse; i <= endVerse; i++)
+        {
+            stringBuilder.Append(Recite(i));
+            if (i != endVerse) stringBuilder.Append("\n");
+        }
+        return stringBuilder.ToString();
     }
 }
