@@ -34,24 +34,27 @@ public static class TwelveDays
 
     public static string Recite(int verseNumber)
     {
-        var versesParts = AssembleContents(verseNumber);
+        var versesParts = BuildVerseParts(verseNumber);
         return $"On the {VerseNumberToVerse[verseNumber].Position} day of Christmas my true love gave to me: " + versesParts;
     }
 
-    private static string AssembleContents(int verseNumber)
+    private static string BuildVerseParts(int verseNumber)
     {
         StringBuilder stringBuilder = new StringBuilder();
         for(int i = verseNumber; i >= 1; i--)
         {
-            bool isPenultimateVerse = verseNumber > 1 && i == 1; 
-            if (isPenultimateVerse) 
+            bool isLastVersePart = i == 1; 
+            if (isLastVersePart && verseNumber > 1) 
             {
                 stringBuilder.Append("and ");
             }
 
             stringBuilder.Append(VerseNumberToVerse[i].Content);
-            bool hasMoreLines = i >= 2;
-            if (!isPenultimateVerse && hasMoreLines) stringBuilder.Append(", ");
+            
+            if (!isLastVersePart) 
+            {
+                stringBuilder.Append(", ");
+            }
         }
         return stringBuilder.ToString();
     }
@@ -62,7 +65,11 @@ public static class TwelveDays
         for (int i = startVerse; i <= endVerse; i++)
         {
             stringBuilder.Append(Recite(i));
-            if (i != endVerse) stringBuilder.Append("\n");
+            bool isLastVersePart  = i == endVerse;
+            if (!isLastVersePart ) 
+            {
+              stringBuilder.Append("\n");  
+            } 
         }
         return stringBuilder.ToString();
     }
