@@ -41,34 +41,46 @@ public static class TwelveDays
     private static string BuildVerseParts(int verseNumber)
     {
         StringBuilder stringBuilder = new StringBuilder();
-        for(int i = verseNumber; i >= 1; i--)
+        for(int currentVerse = verseNumber; currentVerse >= 1; currentVerse--)
         {
-            bool isLastVersePart = i == 1; 
-            if (isLastVersePart && verseNumber > 1) 
+            bool isLastVersePart = currentVerse == 1;
+            bool noNextVerses = isLastVersePart && verseNumber > 1;
+            if (noNextVerses)
             {
-                stringBuilder.Append("and ");
+                AddLastVerseConjunction(stringBuilder);
             }
 
-            stringBuilder.Append(VerseNumberToVerse[i].Content);
+            stringBuilder.Append(VerseNumberToVerse[currentVerse].Content);
             
-            if (!isLastVersePart) 
+            if (!isLastVersePart)
             {
-                stringBuilder.Append(", ");
+                AddVerseConjunction(stringBuilder);
             }
         }
         return stringBuilder.ToString();
     }
 
+    private static void AddLastVerseConjunction(StringBuilder stringBuilder)
+    {
+        stringBuilder.Append("and ");
+    }
+
+    private static void AddVerseConjunction(StringBuilder stringBuilder)
+    {
+        stringBuilder.Append(", ");
+    }
+
     public static string Recite(int startVerse, int endVerse)
     {
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = startVerse; i <= endVerse; i++)
+        bool isLastVersePart = false;
+        for (int currentVerse = startVerse; currentVerse <= endVerse; currentVerse++)
         {
-            stringBuilder.Append(Recite(i));
-            bool isLastVersePart  = i == endVerse;
+            stringBuilder.Append(Recite(currentVerse));
+            isLastVersePart  = currentVerse == endVerse;
             if (!isLastVersePart ) 
             {
-              stringBuilder.Append("\n");  
+                stringBuilder.Append("\n");  
             } 
         }
         return stringBuilder.ToString();
