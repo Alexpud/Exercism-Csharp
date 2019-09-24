@@ -41,23 +41,25 @@ public static class TwelveDays
     private static string BuildVerseParts(int verseNumber)
     {
         StringBuilder stringBuilder = new StringBuilder();
-        for(int currentVerse = verseNumber; currentVerse >= 1; currentVerse--)
+        for (int currentVerse = verseNumber; currentVerse > 1; currentVerse--)
         {
-            bool isLastVersePart = currentVerse == 1;
-            bool noNextVerses = isLastVersePart && verseNumber > 1;
-            if (noNextVerses)
-            {
-                AddLastVerseConjunction(stringBuilder);
-            }
-
             stringBuilder.Append(VerseNumberToVerse[currentVerse].Content);
-            
-            if (!isLastVersePart)
-            {
-                AddVerseConjunction(stringBuilder);
-            }
+            AddVerseConjunction(stringBuilder);
         }
+
+        AddLastVersePart(verseNumber, stringBuilder);
+
         return stringBuilder.ToString();
+    }
+
+    private static void AddLastVersePart(int verseNumber, StringBuilder stringBuilder)
+    {
+        if (verseNumber > 1)
+        {
+            AddLastVerseConjunction(stringBuilder);
+        }
+
+        stringBuilder.Append(VerseNumberToVerse[1].Content);
     }
 
     private static void AddLastVerseConjunction(StringBuilder stringBuilder)
