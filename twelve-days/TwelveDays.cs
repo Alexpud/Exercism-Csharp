@@ -48,7 +48,6 @@ public static class TwelveDays
         }
 
         AddLastVersePart(verseNumber, stringBuilder);
-
         return stringBuilder.ToString();
     }
 
@@ -80,11 +79,16 @@ public static class TwelveDays
         {
             stringBuilder.Append(Recite(currentVerse));
             isLastVersePart  = currentVerse == endVerse;
-            if (!isLastVersePart ) 
+            if (!isLastVersePart )
             {
-                stringBuilder.Append("\n");  
-            } 
+                AddLineBreak(stringBuilder);
+            }
         }
         return stringBuilder.ToString();
+    }
+
+    private static void AddLineBreak(StringBuilder stringBuilder)
+    {
+        stringBuilder.Append("\n");
     }
 }
