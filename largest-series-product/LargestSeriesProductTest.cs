@@ -11,13 +11,13 @@ public class LargestSeriesProductTest
         Assert.Equal(18, LargestSeriesProduct.GetLargestProduct("29", 2));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Can_find_the_largest_product_of_2_with_numbers_in_order()
     {
         Assert.Equal(72, LargestSeriesProduct.GetLargestProduct("0123456789", 2));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Can_find_the_largest_product_of_2()
     {
         Assert.Equal(48, LargestSeriesProduct.GetLargestProduct("576802143", 2));
