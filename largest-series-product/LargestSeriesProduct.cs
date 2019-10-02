@@ -19,15 +19,20 @@ public static class LargestSeriesProduct
             for (int j = i; j <= i + (span - 1); j++)
             {
                 var digit = (long)char.GetNumericValue(digits[j]);
-                if (digit < 0)
-                {
-                    throw new ArgumentException("Can't have non digit characters");
-                }
+                ThrowIfInvalidDigit(digit);
                 currentSpanProduct *= digit;
             }
             largestProduct = currentSpanProduct > largestProduct ? currentSpanProduct : largestProduct;
         }
         return largestProduct;
+    }
+
+    private static void ThrowIfInvalidDigit(long digit)
+    {
+        if (digit < 0)
+        {
+            throw new ArgumentException("Can't have non digit characters");
+        }
     }
 
     private static void ThrowIfInvalidInputs(string digits, int span)
