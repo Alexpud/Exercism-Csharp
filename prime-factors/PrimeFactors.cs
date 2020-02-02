@@ -6,19 +6,18 @@ public static class PrimeFactors
 {
     public static long[] Factors(long number)
     {
-        var possiblePrimeNumbers = Enumerable.Range(2, (int)number - 1).ToArray();
-        int i = 0;
+        long currentPossiblePrime = 2;
         List<long> result  = new List<long>();
-        while(i < possiblePrimeNumbers.Length)
+        while(currentPossiblePrime <= number)
         {
-            if (IsPrimeFactor(number, possiblePrimeNumbers[i]))
+            if (IsPrimeFactor(number, currentPossiblePrime))
             {
-                number /= possiblePrimeNumbers[i];
-                result.Add(possiblePrimeNumbers[i]);
+                number /= currentPossiblePrime;
+                result.Add(currentPossiblePrime);
             }
             else
             {
-                i++;
+                currentPossiblePrime++;
             }
         }
         return result.ToArray();
