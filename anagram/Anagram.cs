@@ -4,7 +4,7 @@ using System.Linq;
 
 public class Anagram
 {
-	private Dictionary<char, int> _baseWordLettersByFrequency;
+	private readonly Dictionary<char, int> _baseWordLettersByFrequency;
 	private readonly string _baseWord;
     public Anagram(string baseWord)
     {
@@ -17,34 +17,11 @@ public class Anagram
     	var result = new List<string>();
     	foreach(var potentialMatch in potentialMatches)
     	{
-    		if (potentialMatch.ToLower() == _baseWord.ToLower()) continue;
+    		if (potentialMatch.ToLower() == _baseWord.ToLower()) 
+    			continue;
+
     		var potentialMatchFrequency = GetLetterByFrequency(potentialMatch);
-
-			bool shouldAdd = true;
-    		foreach(var key in _baseWordLettersByFrequency.Keys)
-    		{
-    			bool differentCharactersInWords = potentialMatchFrequency.Count() != _baseWordLettersByFrequency.Count();
-    			if (differentCharactersInWords)
-    			{
-    				shouldAdd = false;
-    				break;
-    			}
-
-    			bool characterIsNotPresent = !potentialMatchFrequency.TryGetValue(key, out var frequency);
-    			if (characterIsNotPresent)
-    			{
-    				shouldAdd = false;
-    				break;
-    			}
-
-    			bool characterFrequencyIsDifferent = potentialMatchFrequency[key] != _baseWordLettersByFrequency[key];
-    			if (characterFrequencyIsDifferent)
-    			{
-    				shouldAdd = false;
-    				break;
-    			}
-    		}
-    		if (shouldAdd)
+    		if (IsAnagramToBaseWord(potentialMatchFrequency))
     			result.Add(potentialMatch);
     	}
     	return result.ToArray();
@@ -52,6 +29,26 @@ public class Anagram
 
     private Dictionary<char, int> GetLetterByFrequency(string word) 
     {
-    	return word.ToLower().GroupBy(x => x).ToDictionary(x => x.Key, y => y.Count());;
+    	return word.ToLower().GroupBy(letter => letter)
+    		.ToDictionary(x => x.Key, y => y.Count());;
+    }
+
+    private bool IsAnagramToBaseWord(Dictionary<char, int> letterByFrequency)
+    {
+    	bool differentLettersInWords = letterByFrequency.Count() != _baseWordLettersByFrequency.Count();
+    	if (differentLettersInWords)
+    		return false;
+    	
+    	foreach(var key in _baseWordLettersByFrequency.Keys)
+    	{
+    		bool letterIsNotPresent = !letterByFrequency.TryGetValue(key, out var frequency);
+	    	if (letterIsNotPresent)
+	    		return false;
+	
+    		bool letterFrequencyIsDifferent = letterByFrequency[key] != _baseWordLettersByFrequency[key];
+    		if (letterFrequencyIsDifferent)
+    			return false;
+    	}
+    	return true;
     }
 }
