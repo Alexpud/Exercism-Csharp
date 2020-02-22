@@ -111,6 +111,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Triangle", "triangle\Triang
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwoFer", "two-fer\TwoFer.csproj", "{A21C9200-B60A-4295-B2BD-195C9677CB9B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anagram", "anagram\Anagram.csproj", "{7D84B234-A310-4C7D-B8A4-747B9372F62A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -757,6 +759,18 @@ Global
 		{A21C9200-B60A-4295-B2BD-195C9677CB9B}.Release|x64.Build.0 = Release|Any CPU
 		{A21C9200-B60A-4295-B2BD-195C9677CB9B}.Release|x86.ActiveCfg = Release|Any CPU
 		{A21C9200-B60A-4295-B2BD-195C9677CB9B}.Release|x86.Build.0 = Release|Any CPU
+		{7D84B234-A310-4C7D-B8A4-747B9372F62A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D84B234-A310-4C7D-B8A4-747B9372F62A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D84B234-A310-4C7D-B8A4-747B9372F62A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7D84B234-A310-4C7D-B8A4-747B9372F62A}.Debug|x64.Build.0 = Debug|Any CPU
+		{7D84B234-A310-4C7D-B8A4-747B9372F62A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7D84B234-A310-4C7D-B8A4-747B9372F62A}.Debug|x86.Build.0 = Debug|Any CPU
+		{7D84B234-A310-4C7D-B8A4-747B9372F62A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D84B234-A310-4C7D-B8A4-747B9372F62A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D84B234-A310-4C7D-B8A4-747B9372F62A}.Release|x64.ActiveCfg = Release|Any CPU
+		{7D84B234-A310-4C7D-B8A4-747B9372F62A}.Release|x64.Build.0 = Release|Any CPU
+		{7D84B234-A310-4C7D-B8A4-747B9372F62A}.Release|x86.ActiveCfg = Release|Any CPU
+		{7D84B234-A310-4C7D-B8A4-747B9372F62A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
