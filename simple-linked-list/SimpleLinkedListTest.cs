@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Xunit;
-using SimpleLinkedList;
+
 public class SimpleLinkedListTest
 {
     [Fact]
@@ -31,18 +31,17 @@ public class SimpleLinkedListTest
         Assert.Equal(1, list.Next.Value);
     }
 
-    [Fact]
+    [Fact(Skip = "Remove to run test")]
     public void Two_item_list_second_item_has_no_next()
     {
         var list = new SimpleLinkedList<int>(2).Add(1);
         Assert.Null(list.Next.Next);
     }
 
-    [Fact]
+    [Fact(Skip = "Remove to run test")]
     public void Implements_enumerable()
     {
-        var values = new SimpleLinkedList<int>(2);
-        values.Add(1);
+        var values = new SimpleLinkedList<int>(2).Add(1);
         Assert.Equal(new[] { 2, 1 }, values);
     }
 

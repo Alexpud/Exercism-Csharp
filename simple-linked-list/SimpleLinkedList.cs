@@ -2,99 +2,59 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-namespace SimpleLinkedList
+
+public class SimpleLinkedList<T> : IEnumerable<T>
 {
-    public class SimpleLinkedList<T> : IEnumerable<T>
+    private SimpleLinkedList<T> _next;
+    private T _value;
+
+    public SimpleLinkedList() { }
+    public SimpleLinkedList(T value)
     {
-        private Node<T> _head;
-        private IEnumerator<T> _enumerator;
-        public SimpleLinkedList(T value)
-        {
-            _head = new Node<T>(value);
-            _enumerator = new SimpleLinkedListEnumerator<T>(_head);
-        }
+        _value = value;
+    }
 
-        public SimpleLinkedList(IEnumerable<T> values)
-        {
-            throw new NotImplementedException("You need to implement this function.");
-        }
+    public SimpleLinkedList(IEnumerable<T> values)
+    {
+    }
 
-        public T Value
-        {
-            get
-            {
-                return _enumerator.Current;
-            }
-        }
+    public T Value 
+    { 
+        get => _value;
+        private set => _value = value;
+    }
 
-        public SimpleLinkedList<T> Next
+    public SimpleLinkedList<T> Next
+    { 
+        get
         {
-            get
-            {
-                if (_enumerator.MoveNext())
-                    return this;
-                return null;
-            }
-        }
-
-        public SimpleLinkedList<T> Add(T value)
-        {
-            _head.Next = new Node<T>(value);
-            return this;
-        }
-
-        public IEnumerator<T> GetEnumerator()
-        {
-            return new SimpleLinkedListEnumerator<T>(_head);
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
+            return _next;
         }
     }
 
-    public class Node<T>
+    public SimpleLinkedList<T> Add(T value)
     {
-        public T Value;
-        public Node<T> Next;
-
-        public Node(T value)
+        var current = _next;
+        while(current != null)
         {
-            Value = value;
+            current = current.Next;
         }
+        current = new SimpleLinkedList<T>(value);
+        return this;
     }
 
-    public class SimpleLinkedListEnumerator<T> : IEnumerator<T>
+    public IEnumerator<T> GetEnumerator()
     {
-        private Node<T> _head;
-        private Node<T> _current;
-        object IEnumerator.Current => _current.Value;
-        T IEnumerator<T>.Current => _current.Value;
+        throw new NotImplementedException("You need to implement this function.");
+    }
 
-        public SimpleLinkedListEnumerator(Node<T> node)
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        var current = this;
+        while (current != null)
         {
-            _head = node;
-            _current = node;
-        }
-
-        public void Dispose()
-        {
-        }
-
-        public bool MoveNext()
-        {
-            if (_current.Next != null)
-            {
-                _current = _current.Next;
-                return true;
-            }
-            return false;
-        }
-
-        public void Reset()
-        {
-            throw new NotImplementedException();
+            yield return current.Value;
+            current = current.Next;
         }
     }
 }
