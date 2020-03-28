@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public static class RomanNumeralExtension
 {
-    private static Dictionary<int, string> arabicByRoman = new Dictionary<int, string>()
+    private static Dictionary<int, string> arabicByRomanAlgarisms = new Dictionary<int, string>()
     {
         { 1000, "M" },
         { 900, "CM" },
@@ -26,12 +26,12 @@ public static class RomanNumeralExtension
     public static string ToRoman(this int value)
     {
         StringBuilder sb = new StringBuilder();
-        foreach(var arabicNumeral in arabicByRoman.Keys)
+        foreach(var arabicAlgarism in arabicByRomanAlgarisms.Keys)
         {
-            if (arabicNumeral <= value)
+            if (arabicAlgarism <= value)
             {
-                var romanAlgarism = Enumerable.Repeat(arabicByRoman[arabicNumeral], value / arabicNumeral);
-                value -= romanAlgarism.Count() * arabicNumeral;
+                var romanAlgarism = Enumerable.Repeat(arabicByRomanAlgarisms[arabicAlgarism], value / arabicAlgarism);
+                value -= romanAlgarism.Count() * arabicAlgarism;
                 sb.Append(string.Concat(romanAlgarism));
             }
         }
