@@ -25,16 +25,21 @@ public static class RomanNumeralExtension
 
     public static string ToRoman(this int value)
     {
-        StringBuilder sb = new StringBuilder();
+        var sb = new StringBuilder();
         foreach(var arabicAlgarism in arabicByRomanAlgarisms.Keys)
         {
             if (arabicAlgarism <= value)
             {
-                var romanAlgarism = Enumerable.Repeat(arabicByRomanAlgarisms[arabicAlgarism], value / arabicAlgarism);
-                value -= romanAlgarism.Count() * arabicAlgarism;
-                sb.Append(string.Concat(romanAlgarism));
+                var romanAlgarismCount = GetRomanAlgarismCount(value, arabicAlgarism);
+                value -= romanAlgarismCount * arabicAlgarism;
+                sb.Append(string.Concat(romanAlgarismCount));
             }
         }
         return sb.ToString();
+    }
+
+    private static int GetRomanAlgarismCount(int value, int arabicAlgarism)
+    {
+        return Enumerable.Repeat(arabicByRomanAlgarisms[arabicAlgarism], value / arabicAlgarism).Count();
     }
 }
