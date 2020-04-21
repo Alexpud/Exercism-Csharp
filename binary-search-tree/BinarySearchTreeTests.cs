@@ -54,38 +54,38 @@ public class BinarySearchTreeTests
     public void Can_TravelTree_InOrder()
     {
         var tree = new BinarySearchTree(new [] {9, 8, 7});
-        Assert.Equal(new[] { 7, 8, 9 }, tree.Search(tree, new List<int>()));
+        Assert.Equal(new[] { 7, 8, 9 }, tree.InOrderTreeTraversal(tree, new List<int>()));
     }
 
-    [Fact(Skip = "Remove this Skip property to run this test")]
+    [Fact]
     public void Can_sort_single_number()
     {
         var tree = new BinarySearchTree(2);
         Assert.Equal(new[] { 2 }, tree.AsEnumerable());
     }
 
-    [Fact(Skip = "Remove this Skip property to run this test")]
+    [Fact]
     public void Can_sort_if_second_number_is_smaller_than_first()
     {
         var tree = new BinarySearchTree(new[] { 2, 1 });
         Assert.Equal(new[] { 1, 2 }, tree.AsEnumerable());
     }
 
-    [Fact(Skip = "Remove this Skip property to run this test")]
+    [Fact]
     public void Can_sort_if_second_number_is_same_as_first()
     {
         var tree = new BinarySearchTree(new[] { 2, 2 });
         Assert.Equal(new[] { 2, 2 }, tree.AsEnumerable());
     }
 
-    [Fact(Skip = "Remove this Skip property to run this test")]
+    [Fact]
     public void Can_sort_if_second_number_is_greater_than_first()
     {
         var tree = new BinarySearchTree(new[] { 2, 3 });
         Assert.Equal(new[] { 2, 3 }, tree.AsEnumerable());
     }
 
-    [Fact(Skip = "Remove this Skip property to run this test")]
+    [Fact]
     public void Can_sort_complex_tree()
     {
         var tree = new BinarySearchTree(new[] { 2, 1, 3, 6, 7, 5 });

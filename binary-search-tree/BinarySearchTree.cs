@@ -71,32 +71,24 @@ public class BinarySearchTree : IEnumerable<int>
 
     public IEnumerator<int> GetEnumerator()
     {
-        var currentNode = this;
-        while(true)
+        var nodesInOrder = InOrderTreeTraversal(this, new List<int>());
+        foreach(var node in nodesInOrder)
         {
-            if (currentNode.Left != null)
-            {
-                currentNode = currentNode.leftNode;
-            }
-            else if (currentNode.Right != null)
-            {
-                currentNode = currentNode.Right;
-            }
+            yield return node;
         }
-        throw new NotImplementedException("You need to implement this function.");
     }
 
-    public List<int> Search(BinarySearchTree node, List<int> nodesValues)
+    public List<int> InOrderTreeTraversal(BinarySearchTree node, List<int> nodesValues)
     {
         if (node.Left != null)
         {
-            nodesValues = Search(node.Left, nodesValues);
+            nodesValues = InOrderTreeTraversal(node.Left, nodesValues);
         }
         nodesValues.Add(node.value);
 
         if (node.rightNode != null)
         {
-            nodesValues = Search(node.rightNode, nodesValues);
+            nodesValues = InOrderTreeTraversal(node.rightNode, nodesValues);
         }
         return nodesValues;
     }
