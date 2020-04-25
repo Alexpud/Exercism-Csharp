@@ -5,14 +5,14 @@ using System.Linq;
 
 public class BinarySearchTree : IEnumerable<int>
 {
-    private int value = 0;
-    private BinarySearchTree leftNode;
-    private BinarySearchTree rightNode;
+    private int _value = 0;
+    private BinarySearchTree _leftNode;
+    private BinarySearchTree _rightNode;
     public BinarySearchTree() { }
 
     public BinarySearchTree(int value)
     {
-        this.value = value;
+        _value = value;
     }
 
     public BinarySearchTree(IEnumerable<int> values)
@@ -27,7 +27,7 @@ public class BinarySearchTree : IEnumerable<int>
     {
         get
         {
-            return this.value;
+            return _value;
         }
     }
 
@@ -35,7 +35,7 @@ public class BinarySearchTree : IEnumerable<int>
     {
         get
         {
-            return leftNode;
+            return _leftNode;
         }
     }
 
@@ -43,26 +43,25 @@ public class BinarySearchTree : IEnumerable<int>
     {
         get
         {
-            return rightNode;
+            return _rightNode;
         }
     }
 
     public BinarySearchTree Add(int value)
     {
-        if (this.value == 0)
+        if (this._value == 0)
         {
-            this.value = value;
+            this._value = value;
             return this;
         }
-        if  (value <= this.value)
+        if  (value <= this._value)
         {
-            leftNode = leftNode == null ? new BinarySearchTree(value) : leftNode.Add(value);
+            _leftNode = _leftNode == null ? new BinarySearchTree(value) : _leftNode.Add(value);
             return this;
         }
-
-        if  (value > this.value)
+        if  (value > this._value)
         {
-            rightNode = rightNode == null ? new BinarySearchTree(value) : rightNode.Add(value);
+            _rightNode = _rightNode == null ? new BinarySearchTree(value) : _rightNode.Add(value);
             return this;
         }
 
@@ -84,11 +83,12 @@ public class BinarySearchTree : IEnumerable<int>
         {
             nodesValues = InOrderTreeTraversal(node.Left, nodesValues);
         }
-        nodesValues.Add(node.value);
+        
+        nodesValues.Add(node._value);
 
-        if (node.rightNode != null)
+        if (node.Right != null)
         {
-            nodesValues = InOrderTreeTraversal(node.rightNode, nodesValues);
+            nodesValues = InOrderTreeTraversal(node.Right, nodesValues);
         }
         return nodesValues;
     }
