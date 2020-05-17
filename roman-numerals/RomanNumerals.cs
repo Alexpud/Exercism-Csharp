@@ -32,7 +32,8 @@ public static class RomanNumeralExtension
             {
                 var romanAlgarismCount = GetRomanAlgarismCount(value, arabicAlgarism);
                 value -= romanAlgarismCount * arabicAlgarism;
-                sb.Append(string.Concat(romanAlgarismCount));
+                var romanNumber = String.Concat(Enumerable.Repeat(arabicByRomanAlgarisms[arabicAlgarism], romanAlgarismCount));
+                sb.Append(romanNumber);
             }
         }
         return sb.ToString();
