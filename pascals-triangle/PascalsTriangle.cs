@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 public static class PascalsTriangle
@@ -16,21 +15,27 @@ public static class PascalsTriangle
         pascalTriangle.Add(previousTriangleLvlElements);
         for(var currentTriangleLvl = 1; currentTriangleLvl < rows; currentTriangleLvl++)
         {
-            var newTriangleLvlElements = new List<int>();
-            for(int newTriangleColumn = 0; newTriangleColumn <= currentTriangleLvl; newTriangleColumn++)
-            {
-                newTriangleLvlElements.Add(GetCurrentTriangleColumnValue(newTriangleColumn, previousTriangleLvlElements));
-            }
-            pascalTriangle.Add(newTriangleLvlElements);
-            previousTriangleLvlElements = newTriangleLvlElements;
+            var newTriangleLvl = GetNewTriangleLvl(previousTriangleLvlElements, currentTriangleLvl);
+            pascalTriangle.Add(newTriangleLvl);
+            previousTriangleLvlElements = newTriangleLvl;
         }
         return pascalTriangle;
     }
 
+    private static List<int> GetNewTriangleLvl(List<int> previousTriangleLvlElements,  int currentTriangleLvl)
+    {
+        var newTriangleLvlElements = new List<int>();
+        for (int newTriangleColumn = 0; newTriangleColumn <= currentTriangleLvl; newTriangleColumn++)
+        {
+            newTriangleLvlElements.Add(GetCurrentTriangleColumnValue(newTriangleColumn, previousTriangleLvlElements));
+        }
+        return newTriangleLvlElements;
+    }
+
     private static int GetCurrentTriangleColumnValue(int newLineColumn, List<int> previousTriangleLvlElements)
     {
-        var previousValue1 = newLineColumn == 0 ? 0 : previousTriangleLvlElements[newLineColumn - 1];
+        var previousValue = newLineColumn == 0 ? 0 : previousTriangleLvlElements[newLineColumn - 1];
         var currentValue = newLineColumn >= previousTriangleLvlElements.Count() ? 0  : previousTriangleLvlElements[newLineColumn];
-        return previousValue1 + currentValue;
+        return previousValue + currentValue;
     }
 }
