@@ -5,13 +5,13 @@ public static class PascalsTriangle
 {
     public static IEnumerable<IEnumerable<int>> Calculate(int rows)
     {
-        var previousTriangleLvlElements = new List<int>(){1};
-        var pascalTriangle = new List<List<int>>();
         if (rows == 0)
         {
             return Enumerable.Empty<IEnumerable<int>>();
         }
         
+        var previousTriangleLvlElements = new List<int>(){1};
+        var pascalTriangle = new List<List<int>>();
         pascalTriangle.Add(previousTriangleLvlElements);
         for(var currentTriangleLvl = 1; currentTriangleLvl < rows; currentTriangleLvl++)
         {
