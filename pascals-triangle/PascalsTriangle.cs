@@ -34,8 +34,8 @@ public static class PascalsTriangle
 
     private static int GetCurrentTriangleColumnValue(int newLineColumn, List<int> previousTriangleLvlElements)
     {
-        var previousValue = newLineColumn == 0 ? 0 : previousTriangleLvlElements[newLineColumn - 1];
-        var currentValue = newLineColumn >= previousTriangleLvlElements.Count() ? 0  : previousTriangleLvlElements[newLineColumn];
-        return previousValue + currentValue;
+        var valueInPreviousColumnInLvlAbove = newLineColumn == 0 ? 0 : previousTriangleLvlElements[newLineColumn - 1];
+        var valueInCurrentColumnLvlAbove = newLineColumn >= previousTriangleLvlElements.Count() ? 0  : previousTriangleLvlElements[newLineColumn];
+        return valueInPreviousColumnInLvlAbove + valueInCurrentColumnLvlAbove;
     }
 }
