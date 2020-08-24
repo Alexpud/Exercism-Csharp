@@ -6,24 +6,35 @@ using System.Collections.Generic;
 public static class FlattenArray
 {
     public static IEnumerable Flatten(IEnumerable input)
-    { 
+    {
         var inputList = input.Cast<object>().ToList();
         var flattenedList = new List<object>();
         if (!inputList.Any()) return flattenedList;
         var firstElement = inputList.First();
-        if (firstElement is Array)
+        if (IsCollection(firstElement))
         {
-            var flattennedSubList = Flatten((IEnumerable)inputList.First());
-            flattenedList = flattenedList.Concat(Flatten(flattennedSubList).Cast<object>()).ToList();
-        }     
+            flattenedList = FlattenNestedList(inputList, flattenedList);
+        }
         else if (firstElement != null)
         {
             flattenedList.Add(inputList.First());
         }
-        
+
         var inputListTail = inputList.Skip(1);
-        flattenedList = flattenedList.Concat((IEnumerable<object>)Flatten(inputListTail)).ToList();
+        var flattenedInputListTail = (IEnumerable<object>)Flatten(inputListTail);
+        flattenedList = flattenedList.Concat(flattenedInputListTail).ToList();
 
         return flattenedList;
+    }
+
+    private static bool IsCollection(object firstElement)
+    {
+        return firstElement is Array;
+    }
+
+    private static List<object> FlattenNestedList(List<object> inputList, List<object> flattenedList)
+    {
+        var flattennedSubList = Flatten((IEnumerable)inputList.First());
+        return flattenedList.Concat(Flatten(flattennedSubList).Cast<object>()).ToList();
     }
 }
