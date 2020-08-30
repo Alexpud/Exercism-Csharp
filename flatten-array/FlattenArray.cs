@@ -8,21 +8,21 @@ public static class FlattenArray
     public static IEnumerable Flatten(IEnumerable input)
     {
         var inputList = input.Cast<object>();
-        var flattenedList = new List<object>();
-        if (!inputList.Any()) return flattenedList;
+        var flattenedInput = Enumerable.Empty<object>();
+        if (!inputList.Any()) return flattenedInput;
         var firstElement = inputList.First();
         if (IsCollection(firstElement))
         {
             var firstElementAsList = (IEnumerable<object>)firstElement;
-            flattenedList = flattenedList.Concat(FlattenList(firstElementAsList)).ToList();
+            flattenedInput = flattenedInput.Concat(FlattenList(firstElementAsList));
         }
         else if (firstElement != null)
         {
-            flattenedList.Add(inputList.First());
+            flattenedInput = flattenedInput.Append(firstElement);
         }
 
-        flattenedList = flattenedList.Concat(FlattenList(inputList.Skip(1))).ToList();
-        return flattenedList;
+        flattenedInput = flattenedInput.Concat(FlattenList(inputList.Skip(1)));
+        return flattenedInput;
     }
 
     private static bool IsCollection(object firstElement)
@@ -30,9 +30,9 @@ public static class FlattenArray
         return firstElement is Array;
     }
 
-    private static IEnumerable<object> FlattenList(IEnumerable<object> inputListTail)
+    private static IEnumerable<object> FlattenList(IEnumerable inputListTail)
     {
-        var flattenedInputListTail = (IEnumerable)Flatten(inputListTail);
+        var flattenedInputListTail = Flatten(inputListTail);
         return flattenedInputListTail.Cast<object>();
     }
 }
