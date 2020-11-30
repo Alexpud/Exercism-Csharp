@@ -36,7 +36,6 @@ public static class ListOps
 
     public static List<T> Filter<T>(List<T> input, Func<T, bool> predicate)
     {
-        var pos = 0;
         var nElementsFiltered = 0;
         foreach(var element in input)
         {
@@ -44,6 +43,7 @@ public static class ListOps
                 nElementsFiltered++;
         }
         var resultingArray = new T[nElementsFiltered];
+        var pos = 0;
         foreach(var element in input)
         {
             if (predicate(element))
@@ -87,7 +87,6 @@ public static class ListOps
         var leftSideArray = left.ToArray();
         var leftListLength = Length(left);
         var rightListLength = Length(right);
-        Array.Resize(ref leftSideArray, leftListLength + rightListLength);
         var leftAndRightArrays = new T[leftListLength + rightListLength];
         int i = 0;
         for (i = 0; i < leftListLength; i++) 
